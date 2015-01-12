@@ -1,13 +1,13 @@
 package com.codepath.apps.yelpclient;
 
-import org.scribe.builder.api.Api;
-import org.scribe.model.Token;
-
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.scribe.builder.api.Api;
+import org.scribe.model.Token;
 
 /*
  *
@@ -24,11 +24,11 @@ import com.loopj.android.http.RequestParams;
 public class YelpClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = YelpApi2.class; // Change this
     public static final String REST_URL = "http://api.yelp.com/v2"; // Change this, base API URL
-    public static final String REST_CONSUMER_KEY = "FILL IN";       // Change this
-    public static final String TOKEN = "FILL IN";
-    public static final String TOKEN_SECRET = "FILL IN";
-    public static final String REST_CONSUMER_SECRET = "FILL IN"; // Change this
-    public static final String REST_CALLBACK_URL = "oauth://cpyelp"; // Change this (here and in manifest)
+    public static final String REST_CONSUMER_KEY = "MxNonLF2lD83jfXQMGLw8A";       // Change this
+    public static final String TOKEN = "OT5v-diXkRRM3UOTJLwJmx2di2mBb5-b";
+    public static final String TOKEN_SECRET = "vvXjz2JauAUufUBJMgAF6GFdlbs";
+    public static final String REST_CONSUMER_SECRET = "yP4Rz7U5vdNRTtIM7H92blRb2gs"; // Change this
+    public static final String REST_CALLBACK_URL = "oauth://ftyelp"; // Change this (here and in manifest)
 
     public YelpClient(Context context) {
         super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);

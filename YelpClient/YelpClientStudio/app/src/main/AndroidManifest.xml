@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="cpyelp"
+                    android:host="ftyelp"
                     android:scheme="oauth" />
             </intent-filter>
         </activity>

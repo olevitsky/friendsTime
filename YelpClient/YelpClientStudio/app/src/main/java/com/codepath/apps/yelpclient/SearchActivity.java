@@ -1,11 +1,5 @@
 package com.codepath.apps.yelpclient;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +8,12 @@ import android.widget.Toast;
 
 import com.codepath.apps.yelpclient.models.Business;
 import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class SearchActivity extends Activity {
 
@@ -28,12 +28,13 @@ public class SearchActivity extends Activity {
 				try {
 					JSONArray businessesJson = body.getJSONArray("businesses");
 					ArrayList<Business> businesses = Business.fromJson(businessesJson);
+                    Toast.makeText(SearchActivity.this, "Success" + businesses.toString(), Toast.LENGTH_SHORT).show();
 					Log.d("DEBUG", businesses.toString());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 			@Override
 			public void onFailure(Throwable arg0) {
 				Toast.makeText(SearchActivity.this, "FAIL", Toast.LENGTH_LONG).show();
