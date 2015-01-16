@@ -1,0 +1,8 @@
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\classes\debug
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\codepath-utils-a9789ff11a8d05c8e4b1eaf7c0a35a7353d579a3.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\codepath-oauth-0.2.4-70a359b4b2969a705d685d55c67f902c47922e21.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\android-async-http-1.4.3-3a1b1d00145d759548aca6c6afa780f99e5c5fb0.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\activeandroid-3.0-ed8418556bd6b4b98b256ec03b978334de735f03.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\universal-image-loader-1.8.4-a1b6b85f14373a2f2f2af8e95c5c42aa1179eb17.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\scribe-e68f0f8b9d31521c28ed43bc7a4542693ebd4761.jar
+D:\PERSONAL\ANDROID\FriendsTime\YelpClient\YelpClientStudio\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-f1f427c9e5d8796f29d88b68aea9a078de349cf7.jar
