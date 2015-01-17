@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CalEx</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_planner">Planner</string>
+    <string name="b4month">Month</string>
+    <string name="b4week">Week</string>
+    <string name="b4day">Day</string>
+    <string name="b4surprise">Surprise Me</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

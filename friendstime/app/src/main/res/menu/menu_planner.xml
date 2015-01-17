@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.friendstime.apps.calex.activities.EventPlanner">
+    <item android:id="@+id/action_settings"
+          android:title="@string/action_settings"
+          android:orderInCategory="100"
+          android:showAsAction="never"/>
+    <item android:id="@+id/menu_item_month"
+          android:icon="@drawable/ic_month"
+          android:title="@string/b4month"
+          app:showAsAction="always"/>
+    <item android:id="@+id/menu_item_week"
+          android:icon="@drawable/ic_week"
+          android:title="@string/b4week"
+          app:showAsAction="always"/>
+    <item android:id="@+id/menu_item_day"
+          android:icon="@drawable/ic_day"
+          android:title="@string/b4day"
+          app:showAsAction="always"/>
+    <item android:id="@+id/menu_item_surprise"
+          android:icon="@drawable/ic_surprise"
+          android:title="@string/b4surprise"
+          app:showAsAction="ifRoom"/>
+
+</menu>
