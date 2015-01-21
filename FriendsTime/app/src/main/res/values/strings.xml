@@ -10,5 +10,22 @@
     <string name="b4day">Day</string>
     <string name="b4surprise">Surprise Me</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
+    <string name="eventNameString">Event Name</string>
+    <string name="statusStr">Status</string>
+    <string name="inHonorOfString">In Honor Of</string>
+    <string name="OccasionStr">Occasion</string>
+    <string name="surpriseMeStr">Surprise\n   Me</string>
+    <string name="ShortEventDescrStr">Short Event Description</string>
+    <string name="fromStr">From</string>
+    <string name="toStr">To</string>
+    <string name="DateStr">Date</string>
+    <string name="timeStr">Time</string>
+    <string name="allDayStr">All Day</string>
+    <string name="saveStr">Save</string>
+    <string name="cancelStr">Cancel</string>
+    <string name="clearStr">Clear</string>
+    <string name="actionStr">Actions</string>
+    <string name="notesStr">Notes</string>
 
 </resources>
