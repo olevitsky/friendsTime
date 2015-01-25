@@ -1,6 +1,5 @@
 package com.codepath.apps.yelpclient;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -26,8 +25,8 @@ public class LoginActivity extends OAuthLoginActivity<YelpClient> {
 	// i.e Display application "homepage"
     @Override
     public void onLoginSuccess() {
-    	Intent i = new Intent(this, SearchActivity.class);
-    	startActivity(i);
+    //	Intent i = new Intent(this, SearchActivity.class);
+    //	startActivity(i);
     }
     
     // OAuth authentication flow failed, handle the error
@@ -41,7 +40,6 @@ public class LoginActivity extends OAuthLoginActivity<YelpClient> {
     // Uses the client to initiate OAuth authorization
     // This should be tied to a button used to login
     public void loginToRest(View view) {
-        getClient().connect();
+      //  getClient().connect();
     }
-
 }

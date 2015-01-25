@@ -3,6 +3,7 @@ package com.friendstime.apps.calex.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +16,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
+import com.friendstime.apps.calex.YelpClientApp;
 import com.friendstime.apps.calex.fragments.CreateEventActivityDialogFragment;
+import com.friendstime.apps.calex.model.Business;
 import com.friendstime.apps.calex.model.EventData;
+import com.friendstime.apps.calex.model.YelpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class CreateEventActivity extends ActionBarActivity
         implements CreateEventActivityDialogFragment.inHonorOfDialogFragmentListener {
@@ -36,6 +47,8 @@ public class CreateEventActivity extends ActionBarActivity
     private Button btActions;
     private Button btNotes;
     private Button bSave;
+    private Button btSurpriseMe;
+    private Button btCancel;
 
     private EventData eventData = new EventData();
 
@@ -66,6 +79,8 @@ public class CreateEventActivity extends ActionBarActivity
         btNotes  = (Button)  findViewById(R.id.btNotes);
         bSave =  (Button) findViewById(R.id.btSave);
         cbAllDay=  (CheckBox)  findViewById(R.id.cbAllDay);
+        btSurpriseMe = (Button) findViewById(R.id.btSurpriseMe);
+        btCancel = (Button) findViewById(R.id.btCancel);
         //inHonorOfNameAdapter = new ArrayAdapter<String>(this,
        //         android.R.layout.simple_spinner_item, inHonorOfNameStr);
         inHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
@@ -114,6 +129,36 @@ public class CreateEventActivity extends ActionBarActivity
                 CreateEventActivityDialogFragment editNameDialog = CreateEventActivityDialogFragment.newInstance("Add Notes");
 
                 editNameDialog.show(fm, "fragment_edit_name");
+            }
+        });
+
+        btCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        btSurpriseMe.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                YelpClient client = YelpClientApp.getRestClient();
+                client.search("food", "san francisco", new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int code, JSONObject body) {
+                        try {
+                            JSONArray businessesJson = body.getJSONArray("businesses");
+                            ArrayList<Business> businesses = Business.fromJson(businessesJson);
+                            Toast.makeText(CreateEventActivity.this, "Success" + businesses.toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("DEBUG", businesses.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable arg0) {
+                        Toast.makeText(CreateEventActivity.this, "FAIL", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
