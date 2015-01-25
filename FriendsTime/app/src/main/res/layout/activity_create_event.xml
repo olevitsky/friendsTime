@@ -14,7 +14,7 @@
 
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -34,17 +34,17 @@
             android:layout_alignParentStart="true"
             android:layout_alignBottom="@+id/svInHonorOf" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/eventNameString"
             android:textAlignment="center"
             android:id="@+id/tvEventName"
             android:layout_toRightOf="@+id/ivEventLabel"
             android:layout_alignParentTop="true"
             android:layout_alignBottom="@+id/ivEventLabel"
             android:layout_toLeftOf="@+id/tvStatus"
-            android:layout_toStartOf="@+id/tvStatus" />
+            android:layout_toStartOf="@+id/tvStatus"
+            android:hint="@string/eventNameString" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -61,8 +61,8 @@
             android:id="@+id/ivEventStatus"
             android:src="@drawable/abc_btn_radio_material"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignLeft="@+id/tvStatus"
+            android:layout_alignStart="@+id/tvStatus" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,9 +70,9 @@
             android:text="@string/statusStr"
             android:id="@+id/tvStatus"
             android:layout_below="@+id/ivEventStatus"
+            android:layout_above="@+id/btAddInHonor"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/tvEventName" />
+            android:layout_alignParentEnd="true" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -81,20 +81,22 @@
             android:spinnerMode="dropdown"
             android:layout_below="@+id/tvEventName"
             android:layout_toRightOf="@+id/tvInHonorOf"
-            android:layout_toLeftOf="@+id/imageButton"
-            android:layout_toStartOf="@+id/imageButton" />
+            android:layout_toStartOf="@+id/btAddInHonor"
+            android:layout_toLeftOf="@+id/btAddInHonor"
+            android:layout_alignRight="@+id/svOccasion"
+            android:layout_alignEnd="@+id/svOccasion" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageButton"
-            android:layout_below="@+id/tvEventName"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+            android:id="@+id/btAddInHonor"
             android:src="@drawable/badge"
-            android:layout_alignBottom="@+id/svInHonorOf" />
+            android:layout_above="@+id/btSurpriseMe"
+            android:layout_alignRight="@+id/ivEventStatus"
+            android:layout_toRightOf="@+id/tvEventName"
+            android:layout_alignEnd="@+id/ivEventStatus" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvOccasion"
@@ -120,34 +122,34 @@
             android:text="@string/surpriseMeStr"
             android:id="@+id/btSurpriseMe"
             android:layout_below="@+id/svInHonorOf"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/svOccasion" />
+            android:layout_alignRight="@+id/btAddInHonor"
+            android:layout_alignEnd="@+id/btAddInHonor" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="367dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:id="@+id/relativeLayout">
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ShortEventDescrStr"
             android:id="@+id/tvEventDescription"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:hint="@string/ShortEventDescrStr" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fromStr"
             android:id="@+id/tvFrom"
-            android:layout_above="@+id/textView"
+
+            android:layout_alignBottom="@+id/tvDateFrom"
             android:layout_alignRight="@+id/tvTo"
             android:layout_alignEnd="@+id/tvTo" />
 
@@ -156,84 +158,86 @@
             android:layout_height="wrap_content"
             android:text="@string/toStr"
             android:id="@+id/tvTo"
-            android:layout_marginTop="50dp"
-            android:layout_below="@+id/tvFrom"
+            android:layout_marginLeft="37dp"
+            android:layout_marginStart="37dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="43dp"
-            android:layout_marginStart="43dp" />
+            android:layout_alignParentStart="true" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/DateStr"
+            android:inputType="date"
             android:id="@+id/tvDateFrom"
+            android:hint="@string/dateStr"
             android:layout_alignTop="@+id/tvTimeFrom"
-            android:layout_alignLeft="@+id/textView3"
-            android:layout_alignStart="@+id/textView3" />
+            android:layout_alignLeft="@+id/tvDateTo"
+            android:layout_alignStart="@+id/tvDateTo"
+            android:layout_alignRight="@+id/tvDateTo"
+            android:layout_alignEnd="@+id/tvDateTo" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/DateStr"
-            android:id="@+id/textView3"
+            android:inputType="date"
+            android:id="@+id/tvDateTo"
+            android:hint="@string/dateStr"
             android:layout_alignTop="@+id/tvTo"
-            android:layout_toRightOf="@+id/tvFrom"
-            android:layout_toEndOf="@+id/tvFrom"
-            android:layout_marginLeft="42dp"
-            android:layout_marginStart="42dp" />
+            android:layout_toRightOf="@+id/btSave"
+            android:layout_toEndOf="@+id/btSave" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/timeStr"
+            android:inputType="time"
             android:id="@+id/tvTimeFrom"
-            android:layout_alignBottom="@+id/cbAllDay"
-            android:layout_toLeftOf="@+id/cbAllDay"
-            android:layout_toStartOf="@+id/cbAllDay"
-            android:layout_marginRight="71dp"
-            android:layout_marginEnd="71dp" />
+            android:hint="@string/timeStr"
 
-        <TextView
+
+            android:layout_above="@+id/tvTimeTo"
+            android:layout_alignLeft="@+id/tvTimeTo"
+            android:layout_alignStart="@+id/tvTimeTo" />
+
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/timeStr"
+            android:inputType="time"
             android:id="@+id/tvTimeTo"
-            android:layout_alignTop="@+id/textView3"
-            android:layout_alignLeft="@+id/tvTimeFrom"
-            android:layout_alignStart="@+id/tvTimeFrom" />
+            android:hint="@string/timeStr"
+            android:layout_alignTop="@+id/tvDateTo"
+            android:layout_toRightOf="@+id/tvDateTo"
+            android:layout_toEndOf="@+id/tvDateTo" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cbAllDay"
             android:checked="false"
-            android:layout_marginRight="27dp"
-            android:layout_marginEnd="27dp"
-            android:layout_below="@+id/tvEventDescription"
+            android:layout_marginRight="39dp"
+            android:layout_marginEnd="39dp"
+            android:layout_alignBottom="@+id/tvTimeTo"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="39dp" />
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/allDayStr"
-            android:id="@+id/textView"
-            android:layout_below="@+id/cbAllDay"
+            android:id="@+id/tvAllDay"
+
+            android:layout_above="@+id/tvTimeTo"
             android:layout_alignRight="@+id/cbAllDay"
-            android:layout_alignEnd="@+id/cbAllDay"
-            android:layout_marginTop="50dp" />
+            android:layout_alignEnd="@+id/cbAllDay" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/actionStr"
             android:id="@+id/btActions"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/tvTo"
-            android:layout_alignLeft="@+id/tvTo"
-            android:layout_alignStart="@+id/tvTo" />
+            android:layout_above="@+id/btSave"
+            android:layout_toStartOf="@+id/btCancel"
+            android:layout_marginBottom="27dp"
+            android:layout_toLeftOf="@+id/btCancel" />
 
         <Button
             android:layout_width="wrap_content"
@@ -241,8 +245,8 @@
             android:text="@string/notesStr"
             android:id="@+id/btNotes"
             android:layout_alignBottom="@+id/btActions"
-            android:layout_alignRight="@+id/textView"
-            android:layout_alignEnd="@+id/textView" />
+            android:layout_alignRight="@+id/tvAllDay"
+            android:layout_alignEnd="@+id/tvAllDay" />
 
         <Button
             style="?android:attr/buttonStyleSmall"

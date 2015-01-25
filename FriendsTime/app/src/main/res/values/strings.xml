@@ -19,13 +19,14 @@
     <string name="ShortEventDescrStr">Short Event Description</string>
     <string name="fromStr">From</string>
     <string name="toStr">To</string>
-    <string name="DateStr">Date</string>
-    <string name="timeStr">Time</string>
+    <string name="dateStr">mm/dd/yy</string>
+    <string name="timeStr">hh:mm</string>
     <string name="allDayStr">All Day</string>
     <string name="saveStr">Save</string>
     <string name="cancelStr">Cancel</string>
     <string name="clearStr">Clear</string>
     <string name="actionStr">Actions</string>
     <string name="notesStr">Notes</string>
+    <string name="chooseOccasionStr">Choose Event</string>
 
 </resources>

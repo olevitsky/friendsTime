@@ -20,8 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.friendstime.apps.calex.adapters.CalendarAdapter;
 import com.friendstime.apps.calex.R;
+import com.friendstime.apps.calex.activities.CreateEventActivity;
+import com.friendstime.apps.calex.adapters.CalendarAdapter;
 import com.friendstime.apps.calex.model.CurrentData;
 import com.friendstime.apps.calex.utils.Utility;
 
@@ -113,6 +114,10 @@ public class EventPlannerFragment extends Fragment {
                 // No grid view. Text should be day + month + year.
                 mDisplayView = DisplayView.VIEW_DAY;
                 refreshCalendar();
+                return true;
+            case R.id.menu_item_surprise:
+                Intent i = new Intent(getActivity(), CreateEventActivity.class);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
