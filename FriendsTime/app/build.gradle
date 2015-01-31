@@ -23,4 +23,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile files('libs/activeandroid-3.0.jar')
+    compile files('libs/Parse-1.8.2.jar')
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 }
