@@ -16,7 +16,7 @@ import com.friendstime.apps.calex.R;
 public class CreateEventActivityDialogFragment extends DialogFragment implements TextView.OnEditorActionListener {
 
     private EditText mEditText;
-    private String title;
+    private String m_title;
     public interface inHonorOfDialogFragmentListener {
         void onFinishEditDialog(String inputText);
     }
@@ -28,7 +28,7 @@ public class CreateEventActivityDialogFragment extends DialogFragment implements
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text to activity
             inHonorOfDialogFragmentListener listener = (inHonorOfDialogFragmentListener) getActivity();
-            String returnString = title + " " + mEditText.getText().toString();
+            String returnString = m_title + " " + mEditText.getText().toString();
 
             listener.onFinishEditDialog(returnString);
             dismiss();
@@ -39,7 +39,7 @@ public class CreateEventActivityDialogFragment extends DialogFragment implements
     public static CreateEventActivityDialogFragment newInstance(String title) {
         CreateEventActivityDialogFragment frag = new CreateEventActivityDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putString("m_title", title);
         frag.setArguments(args);
         return frag;
     }
@@ -49,12 +49,12 @@ public class CreateEventActivityDialogFragment extends DialogFragment implements
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment_create_event_activity, container);
         mEditText = (EditText) view.findViewById(R.id.etDialog);
-        title = getArguments().getString("title", "Enter Name");
-        getDialog().setTitle(title);
-        title = title.replaceAll("\\s+","");
-        if (title.equals("MoreActions")) {
+        m_title = getArguments().getString("m_title", "Enter Name");
+        getDialog().setTitle(m_title);
+        m_title = m_title.replaceAll("\\s+","");
+        if (m_title.equals("MoreActions")) {
             mEditText.setHint("Enter Actions");
-        } else if(title.equals("AddNotes")) {
+        } else if(m_title.equals("AddNotes")) {
             mEditText.setHint("Enter Notes");
         }
 

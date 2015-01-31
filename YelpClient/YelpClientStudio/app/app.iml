@@ -87,6 +87,7 @@
     <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
     <orderEntry type="library" exported="" name="activeandroid-3.0" level="project" />
     <orderEntry type="library" exported="" name="codepath-utils" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.3.4" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.3" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.8.4" level="project" />
     <orderEntry type="library" exported="" name="scribe" level="project" />

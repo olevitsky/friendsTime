@@ -10,21 +10,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Business {
-    private String id;
-    private String name;
-    private String phone;
-    private String imageUrl;
+    private String m_id;
+    private String b_name;
+    private String m_phone;
+    private String m_image_url;
 
-    public String getName() {
-        return this.name;
+    public String getB_name() {
+        return this.b_name;
     }
 
-    public String getPhone() {
-        return this.phone;
+    public String getM_phone() {
+        return this.m_phone;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
+    public String getM_image_url() {
+        return this.m_image_url;
     }
 
     // Decodes business json into business model object
@@ -32,10 +32,10 @@ public class Business {
         Business b = new Business();
         // Deserialize json into object fields
         try {
-            b.id = jsonObject.getString("id");
-            b.name = jsonObject.getString("name");
-            b.phone = jsonObject.getString("display_phone");
-            b.imageUrl = jsonObject.getString("image_url");
+            b.m_id = jsonObject.getString("id");
+            b.b_name = jsonObject.getString("name");
+            b.m_phone = jsonObject.getString("display_phone");
+            b.m_image_url = jsonObject.getString("image_url");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -68,6 +68,6 @@ public class Business {
 
     @Override
     public String toString() {
-        return id + " " + name + " " + phone + " " + imageUrl;
+        return m_id + " " + b_name + " " + m_phone + " " + m_image_url;
     }
 }

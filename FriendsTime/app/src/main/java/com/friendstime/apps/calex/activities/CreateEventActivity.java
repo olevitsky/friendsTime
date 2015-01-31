@@ -31,31 +31,31 @@ import java.util.ArrayList;
 
 public class CreateEventActivity extends ActionBarActivity
         implements CreateEventActivityDialogFragment.inHonorOfDialogFragmentListener {
-    private EditText tvEventName;
-    private Spinner svInHonorOf;
-    private Spinner svOccasion;
-    private EditText tvEventDescription;
-    private EditText tvDateFrom;
-    private EditText tvDateTo;
-    private EditText tvTimeFrom;
-    private EditText tvTimeTo;
-    private ImageButton btAddInHonor;
-    private CheckBox cbAllDay;
-    private String actions = "";
-    private String notes = "";
+    private EditText mTvEventName;
+    private Spinner mSvInHonorOf;
+    private Spinner mSvOccasion;
+    private EditText mTvEventDescription;
+    private EditText mTvDateFrom;
+    private EditText mTvDateTo;
+    private EditText mTvTimeFrom;
+    private EditText mTvTimeTo;
+    private ImageButton mBtAddInHonor;
+    private CheckBox mCbAllDay;
+    private String m_actions = "";
+    private String m_notes = "";
 
-    private Button btActions;
-    private Button btNotes;
-    private Button bSave;
-    private Button btSurpriseMe;
-    private Button btCancel;
+    private Button mBtActions;
+    private Button mBtNotes;
+    private Button mBSave;
+    private Button mBtSurpriseMe;
+    private Button mBtCancel;
 
-    private EventData eventData = new EventData();
+    private EventData mEventData = new EventData();
 
-    private String[] inHonorOfNameStr = {"Dinesh"};
-    private String[]  occasionsStr= {"birthday" , "friday" , "eve beer"};
-    private ArrayAdapter<String> inHonorOfNameAdapter;
-    private ArrayAdapter<String> occasionAdapter;
+
+    private String[] m_occasions = {"birthday" , "friday" , "eve beer"};
+    private ArrayAdapter<String> mInHonorOfNameAdapter;
+    private ArrayAdapter<String> mOccasionAdapter;
 
 
 
@@ -64,57 +64,59 @@ public class CreateEventActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        tvEventName = (EditText) findViewById(R.id.tvEventName);
-        svInHonorOf = (Spinner) findViewById(R.id.svInHonorOf);
-        svOccasion = (Spinner) findViewById(R.id.svOccasion);
-        tvEventDescription = (EditText) findViewById(R.id.tvEventDescription);
-        tvDateFrom = (EditText) findViewById(R.id.tvDateFrom);
-        tvDateTo = (EditText) findViewById(R.id.tvDateTo);
-        tvTimeFrom = (EditText) findViewById(R.id.tvTimeFrom);
-        tvTimeTo = (EditText) findViewById(R.id.tvTimeTo);
-        btAddInHonor = (ImageButton) findViewById(R.id.btAddInHonor);
+        mTvEventName = (EditText) findViewById(R.id.tvEventName);
+        mSvInHonorOf = (Spinner) findViewById(R.id.svInHonorOf);
+        mSvOccasion = (Spinner) findViewById(R.id.svOccasion);
+        mTvEventDescription = (EditText) findViewById(R.id.tvEventDescription);
+        mTvDateFrom = (EditText) findViewById(R.id.tvDateFrom);
+        mTvDateTo = (EditText) findViewById(R.id.tvDateTo);
+        mTvTimeFrom = (EditText) findViewById(R.id.tvTimeFrom);
+        mTvTimeTo = (EditText) findViewById(R.id.tvTimeTo);
+        mBtAddInHonor = (ImageButton) findViewById(R.id.btAddInHonor);
 
 
-        btActions  = (Button)  findViewById(R.id.btActions);
-        btNotes  = (Button)  findViewById(R.id.btNotes);
-        bSave =  (Button) findViewById(R.id.btSave);
-        cbAllDay=  (CheckBox)  findViewById(R.id.cbAllDay);
-        btSurpriseMe = (Button) findViewById(R.id.btSurpriseMe);
-        btCancel = (Button) findViewById(R.id.btCancel);
-        //inHonorOfNameAdapter = new ArrayAdapter<String>(this,
+        mBtActions = (Button)  findViewById(R.id.btActions);
+        mBtNotes = (Button)  findViewById(R.id.btNotes);
+        mBSave =  (Button) findViewById(R.id.btSave);
+        mCbAllDay =  (CheckBox)  findViewById(R.id.cbAllDay);
+        mBtSurpriseMe = (Button) findViewById(R.id.btSurpriseMe);
+        mBtCancel = (Button) findViewById(R.id.btCancel);
+        //mInHonorOfNameAdapter = new ArrayAdapter<String>(this,
        //         android.R.layout.simple_spinner_item, inHonorOfNameStr);
-        inHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
-        inHonorOfNameAdapter.add("Dinesh");
+        mInHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+        mInHonorOfNameAdapter.add("Dinesh");
         // Specify the layout to use when the list of choices appears
-        inHonorOfNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mInHonorOfNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        svInHonorOf.setAdapter(inHonorOfNameAdapter);
+        mSvInHonorOf.setAdapter(mInHonorOfNameAdapter);
 
-        occasionAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, occasionsStr);
+        mOccasionAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, m_occasions);
         // Specify the layout to use when the list of choices appears
-        occasionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mOccasionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        svOccasion.setAdapter(occasionAdapter);
+        mSvOccasion.setAdapter(mOccasionAdapter);
 
-        btAddInHonor.setOnClickListener(new View.OnClickListener() {
+        mBtAddInHonor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 CreateEventActivityDialogFragment editNameDialog = CreateEventActivityDialogFragment.newInstance("New Person");
                 editNameDialog.show(fm, "fragment_edit_name");
             }
         });
-        bSave.setOnClickListener(new View.OnClickListener() {
+        mBSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                eventData.setEventData(tvEventName.getText().toString(), svInHonorOf.getSelectedItem().toString(),
-                        svOccasion.getSelectedItem().toString(), tvDateFrom.getText().toString(),
-                        tvDateTo.getText().toString(), tvTimeFrom.getText().toString(), tvTimeTo.getText().toString(),
-                        actions, notes, cbAllDay.isChecked());
-                eventData.save(getBaseContext());
-            };
+                mEventData.setEventData(mTvEventName.getText().toString(), mSvInHonorOf.getSelectedItem().toString(),
+                        mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
+                        mTvDateTo.getText().toString(), mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
+                        m_actions, m_notes, mCbAllDay.isChecked());
+                mEventData.save(getBaseContext());
+            }
+
+            ;
         });
 
-        btActions.setOnClickListener(new View.OnClickListener() {
+        mBtActions.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 CreateEventActivityDialogFragment editNameDialog = CreateEventActivityDialogFragment.newInstance("More Actions");
@@ -123,7 +125,7 @@ public class CreateEventActivity extends ActionBarActivity
             }
         });
 
-        btNotes.setOnClickListener(new View.OnClickListener() {
+        mBtNotes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 CreateEventActivityDialogFragment editNameDialog = CreateEventActivityDialogFragment.newInstance("Add Notes");
@@ -132,13 +134,13 @@ public class CreateEventActivity extends ActionBarActivity
             }
         });
 
-        btCancel.setOnClickListener(new View.OnClickListener() {
+        mBtCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
             }
         });
 
-        btSurpriseMe.setOnClickListener(new View.OnClickListener() {
+        mBtSurpriseMe.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 YelpClient client = YelpClientApp.getRestClient();
                 client.search("food", "san francisco", new JsonHttpResponseHandler() {
@@ -147,8 +149,8 @@ public class CreateEventActivity extends ActionBarActivity
                         try {
                             JSONArray businessesJson = body.getJSONArray("businesses");
                             ArrayList<Business> businesses = Business.fromJson(businessesJson);
-                            Toast.makeText(CreateEventActivity.this, "Success" + businesses.toString(), Toast.LENGTH_SHORT).show();
-                            Log.d("DEBUG", businesses.toString());
+                            Toast.makeText(CreateEventActivity.this, "Success1" + businesses.toString(), Toast.LENGTH_SHORT).show();
+                            Log.d("DEBUG", body.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -193,18 +195,18 @@ public class CreateEventActivity extends ActionBarActivity
         String title = inputText.substring(0,inputText.indexOf(" "));
         String content = inputText.substring(inputText.indexOf(" ")+1);
         if(title.equals("NewPerson")) {
-            inHonorOfNameAdapter.add(content);
-            inHonorOfNameAdapter.notifyDataSetChanged();
-            int sel = inHonorOfNameAdapter.getPosition(content);
-            svInHonorOf.setSelection(sel);
+            mInHonorOfNameAdapter.add(content);
+            mInHonorOfNameAdapter.notifyDataSetChanged();
+            int sel = mInHonorOfNameAdapter.getPosition(content);
+            mSvInHonorOf.setSelection(sel);
 
         } else if (title.equals("MoreActions")) {
-            actions = content;
+            m_actions = content;
         } else if(title.equals("AddNotes")) {
-            notes = content;
+            m_notes = content;
         }
         else { //should never come here
-            Toast.makeText(this, "ERROR uknown title" + " " + title + " " + content, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ERROR unknown title" + " " + title + " " + content, Toast.LENGTH_SHORT).show();
         }
     }
 }

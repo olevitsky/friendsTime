@@ -17,12 +17,12 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  *     
  */
 public class YelpClientApp extends com.activeandroid.app.Application {
-    private static Context context;
+    private static Context sContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        YelpClientApp.context = this;
+        YelpClientApp.sContext = this;
 
         // Create global configuration and initialize ImageLoader with this configuration
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
@@ -34,6 +34,6 @@ public class YelpClientApp extends com.activeandroid.app.Application {
     }
 
     public static YelpClient getRestClient() {
-        return (YelpClient) YelpClient.getInstance(YelpClient.class, YelpClientApp.context);
+        return (YelpClient) YelpClient.getInstance(YelpClient.class, YelpClientApp.sContext);
     }
 }
