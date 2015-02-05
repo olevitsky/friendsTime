@@ -40,7 +40,7 @@ public class YelpClientApp extends com.activeandroid.app.Application {
 
         // Test creation of object - use this only to test parse connection - see instruction on Parse website
         //https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing
-        
+
         //ParseObject testObject = new ParseObject("TestObject");
         //testObject.put("foo", "bar");
         //testObject.saveInBackground();

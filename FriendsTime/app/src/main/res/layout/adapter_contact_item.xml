@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="3dp"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Bob Marley"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvContactPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvContactName"
+        android:text="(567) 789-5889"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvContactEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#575757"
+        android:layout_alignBaseline="@+id/tvContactPhone"
+        android:layout_alignBottom="@+id/tvContactPhone"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tvContactPhone"
+        android:paddingLeft="5dp"
+        android:text="bob@fake.com"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>

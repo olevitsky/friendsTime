@@ -17,10 +17,13 @@ import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.YelpClientApp;
+import com.friendstime.apps.calex.adapters.ContactsAdapter;
 import com.friendstime.apps.calex.fragments.CreateEventActivityDialogFragment;
 import com.friendstime.apps.calex.model.Business;
+import com.friendstime.apps.calex.model.Contact;
 import com.friendstime.apps.calex.model.EventData;
 import com.friendstime.apps.calex.model.YelpClient;
+import com.friendstime.apps.calex.utils.ContactFetcher;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -54,7 +57,8 @@ public class CreateEventActivity extends ActionBarActivity
 
 
     private String[] m_occasions = {"birthday" , "friday" , "eve beer"};
-    private ArrayAdapter<String> mInHonorOfNameAdapter;
+    //private ArrayAdapter<String> mInHonorOfNameAdapter;
+    private ArrayList<Contact> mListContacts;
     private ArrayAdapter<String> mOccasionAdapter;
 
 
@@ -83,12 +87,12 @@ public class CreateEventActivity extends ActionBarActivity
         mBtCancel = (Button) findViewById(R.id.btCancel);
         //mInHonorOfNameAdapter = new ArrayAdapter<String>(this,
        //         android.R.layout.simple_spinner_item, inHonorOfNameStr);
-        mInHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
-        mInHonorOfNameAdapter.add("Dinesh");
+        //mInHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+        //mInHonorOfNameAdapter.add("Dinesh");
         // Specify the layout to use when the list of choices appears
-        mInHonorOfNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //mInHonorOfNameAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
-        mSvInHonorOf.setAdapter(mInHonorOfNameAdapter);
+        //mSvInHonorOf.setAdapter(mInHonorOfNameAdapter);
 
         mOccasionAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, m_occasions);
@@ -164,7 +168,10 @@ public class CreateEventActivity extends ActionBarActivity
             }
         });
 
-
+        //setup Contact fetcher
+        mListContacts = new ContactFetcher(this).fetchAll();
+        ContactsAdapter adapterContacts = new ContactsAdapter(this, mListContacts);
+        mSvInHonorOf.setAdapter(adapterContacts);
     }
 
 
@@ -195,10 +202,10 @@ public class CreateEventActivity extends ActionBarActivity
         String title = inputText.substring(0,inputText.indexOf(" "));
         String content = inputText.substring(inputText.indexOf(" ")+1);
         if(title.equals("NewPerson")) {
-            mInHonorOfNameAdapter.add(content);
-            mInHonorOfNameAdapter.notifyDataSetChanged();
-            int sel = mInHonorOfNameAdapter.getPosition(content);
-            mSvInHonorOf.setSelection(sel);
+            //mInHonorOfNameAdapter.add(content);
+            //mInHonorOfNameAdapter.notifyDataSetChanged();
+            //int sel = mInHonorOfNameAdapter.getPosition(content);
+            //.setSelection(sel);
 
         } else if (title.equals("MoreActions")) {
             m_actions = content;
