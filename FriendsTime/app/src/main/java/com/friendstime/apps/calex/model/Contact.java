@@ -1,41 +1,62 @@
 package com.friendstime.apps.calex.model;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 
 /**
  * Created by oleg on 2/4/2015.
  */
-public class Contact {
-    public String id;
-    public String name;
+@ParseClassName("Contact")
+public class Contact extends ParseObject {
+    //public String id;
+    //public String name;
+
     public ArrayList<ContactEmail> mEmails;
     public ArrayList<ContactPhone> mNumbers;
 
-    public boolean isEmailSet() {
-        return mIsEmailSet;
-    }
 
-    public boolean isNumberSet() {
-        return mIsNumberSet;
-    }
 
-    private boolean mIsEmailSet = false;
-    private boolean mIsNumberSet = false;
 
-    public Contact(String id, String name) {
-        this.id = id;
-        this.name = name;
+    // needed for Parse
+    public Contact () {
+        super();
         this.mEmails = new ArrayList<ContactEmail>();
         this.mNumbers = new ArrayList<ContactPhone>();
     }
 
+    public void setContact(String id, String name) {
+
+        put("id", id);
+        put("name", name);
+
+    }
+
+    public boolean isEmailSet() {
+        return (mEmails.size() != 0);
+    }
+
+    public boolean isNumberSet() {
+        return (mNumbers.size() != 0);
+    }
+    public int getContactId() {
+        return (getInt("id"));
+    }
+
+    public String getContactName() {
+        return (getString("name"));
+    }
+
     public void addEmail(String address, String type) {
-        mEmails.add(new ContactEmail(address, type));
-        mIsEmailSet = true;
+        ContactEmail ce = new ContactEmail();
+        ce.setContactEmail(address, type, this);
+        mEmails.add(ce);
     }
 
     public void addNumber(String number, String type) {
-        mNumbers.add(new ContactPhone(number, type));
-        mIsNumberSet = true;
+        ContactPhone cp = new ContactPhone();
+        cp.setContactPhone(number, type, this);
+        mNumbers.add(cp);
     }
 }

@@ -1,12 +1,13 @@
 package com.friendstime.apps.calex;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.friendstime.apps.calex.model.ParseClient;
 import com.friendstime.apps.calex.model.YelpClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.parse.Parse;
 
 /*
  * This is the Android application itself and is used to configure various settings
@@ -19,7 +20,7 @@ import com.parse.Parse;
  */
 public class YelpClientApp extends com.activeandroid.app.Application {
     private static Context sContext;
-
+    private static ParseClient mParseClient;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,9 +35,13 @@ public class YelpClientApp extends com.activeandroid.app.Application {
         ImageLoader.getInstance().init(config);
 
         //init parse
-        Parse.enableLocalDatastore(this);
+        ParseClient.getInstance(this);
+        Log.i("Info", "I have setup the parse client");
 
-        Parse.initialize(this, "BNtuAUlmqp4bI2V6oxz9R1ll7Y5nQUiRaWBSnyI4", "7MuCAzxPBM1n29QbCjxqX70jZl31fslE2qfJgBOG");
+        //Parse.enableLocalDatastore(this);
+
+       // Parse.initialize(this, "BNtuAUlmqp4bI2V6oxz9R1ll7Y5nQUiRaWBSnyI4", "7MuCAzxPBM1n29QbCjxqX70jZl31fslE2qfJgBOG");
+
 
         // Test creation of object - use this only to test parse connection - see instruction on Parse website
         //https://www.parse.com/apps/quickstart#parse_data/mobile/android/native/existing

@@ -48,7 +48,8 @@ public class ContactFetcher {
         // Get Contact Name
         int nameIndex = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
         String contactDisplayName = c.getString(nameIndex);
-        Contact contact = new Contact(contactId, contactDisplayName);
+        Contact contact = new Contact();
+        contact.setContact(contactId, contactDisplayName);
       //  fetchContactNumbers(c, contact);
       //  fetchContactEmails(c, contact);
         return contact;
@@ -63,7 +64,7 @@ public class ContactFetcher {
         Cursor phone = new CursorLoader(context, ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 numberProjection,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "= ?",
-                new String[] { String.valueOf(contact.id) },
+                new String[] { String.valueOf(contact.getContactId()) },
                 null).loadInBackground();
 
         if (phone.moveToFirst()) {
@@ -91,7 +92,7 @@ public class ContactFetcher {
 
         Cursor email = new CursorLoader(context, ContactsContract.CommonDataKinds.Email.CONTENT_URI, emailProjection,
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + "= ?",
-                new String[] { String.valueOf(contact.id) },
+                new String[] { String.valueOf(contact.getContactId()) },
                 null).loadInBackground();
 
         if (email.moveToFirst()) {
