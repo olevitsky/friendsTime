@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.model.Contact;
+import com.friendstime.apps.calex.utils.ContactFetcher;
 
 import java.util.ArrayList;
 
@@ -36,12 +37,25 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         tvName.setText(contact.name);
         tvEmail.setText("");
         tvPhone.setText("");
+
+        //Oleg TBD check if delay to open spinner is real. Seems to be there is some delay, but not
+        // sure if it is something to worry about
+        // check if method 2 from this link is faster:
+        //http://guides.codepath.com/android/Loading-Contacts-with-Content-Providers
+        if(!contact.isEmailSet())
+            ContactFetcher.fetchContactEmails(contact, getContext());
+        if(!contact.isNumberSet())
+            ContactFetcher.fetchContactNumbers(contact, getContext());
         if (contact.mEmails.size() > 0 && contact.mEmails.get(0) != null) {
             tvEmail.setText(contact.mEmails.get(0).address);
         }
         if (contact.mNumbers.size() > 0 && contact.mNumbers.get(0) != null) {
             tvPhone.setText(contact.mNumbers.get(0).number);
         }
+
+        //debug
+       // Toast.makeText(getContext(),tvEmail.getText().toString() + "  " + tvPhone.getText().toString(), Toast.LENGTH_SHORT  ).show();
+
         return view;
     }
     @Override

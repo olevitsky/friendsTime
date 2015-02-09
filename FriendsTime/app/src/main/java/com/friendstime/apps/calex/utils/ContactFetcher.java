@@ -49,17 +49,18 @@ public class ContactFetcher {
         int nameIndex = c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
         String contactDisplayName = c.getString(nameIndex);
         Contact contact = new Contact(contactId, contactDisplayName);
-        fetchContactNumbers(c, contact);
-        fetchContactEmails(c, contact);
+      //  fetchContactNumbers(c, contact);
+      //  fetchContactEmails(c, contact);
         return contact;
     }
 
+    //Oleg these two functions should be moved to Contact class if we continue using them
 
-    public void fetchContactNumbers(Cursor cursor, Contact contact) {
+    public static void fetchContactNumbers( Contact contact, Context context) {
         // Get numbers
         final String[] numberProjection = new String[] { ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.CommonDataKinds.Phone.TYPE, };
-        Cursor phone = new CursorLoader(mContext, ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+        Cursor phone = new CursorLoader(context, ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 numberProjection,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "= ?",
                 new String[] { String.valueOf(contact.id) },
@@ -75,7 +76,7 @@ public class ContactFetcher {
                 String customLabel = "Custom";
                 CharSequence phoneType =
                         ContactsContract.CommonDataKinds.Phone.getTypeLabel(
-                                mContext.getResources(), type, customLabel);
+                                context.getResources(), type, customLabel);
                 contact.addNumber(number, phoneType.toString());
                 phone.moveToNext();
             }
@@ -84,11 +85,11 @@ public class ContactFetcher {
         phone.close();
     }
 
-    public void fetchContactEmails(Cursor cursor, Contact contact) {
+    public static void fetchContactEmails(Contact contact, Context context) {
         // Get email
         final String[] emailProjection = new String[] { ContactsContract.CommonDataKinds.Email.DATA, ContactsContract.CommonDataKinds.Email.TYPE };
 
-        Cursor email = new CursorLoader(mContext, ContactsContract.CommonDataKinds.Email.CONTENT_URI, emailProjection,
+        Cursor email = new CursorLoader(context, ContactsContract.CommonDataKinds.Email.CONTENT_URI, emailProjection,
                 ContactsContract.CommonDataKinds.Email.CONTACT_ID + "= ?",
                 new String[] { String.valueOf(contact.id) },
                 null).loadInBackground();
@@ -103,7 +104,7 @@ public class ContactFetcher {
                 String customLabel = "Custom";
                 CharSequence emailType =
                         ContactsContract.CommonDataKinds.Email.getTypeLabel(
-                                mContext.getResources(), type, customLabel);
+                                context.getResources(), type, customLabel);
                 contact.addEmail(address, emailType.toString());
                 email.moveToNext();
             }
