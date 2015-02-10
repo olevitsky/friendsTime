@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 public class CreateEventActivity extends ActionBarActivity
         implements CreateEventActivityDialogFragment.inHonorOfDialogFragmentListener {
     private EditText mTvEventName;
-    private Spinner mSvInHonorOf;
+   private Spinner mSvInHonorOf;
     private Spinner mSvOccasion;
     private EditText mTvEventDescription;
     private EditText mTvDateFrom;
@@ -60,7 +61,6 @@ public class CreateEventActivity extends ActionBarActivity
     //private ArrayAdapter<String> mInHonorOfNameAdapter;
     private ArrayList<Contact> mListContacts;
     private ArrayAdapter<String> mOccasionAdapter;
-
 
 
 
@@ -111,7 +111,9 @@ public class CreateEventActivity extends ActionBarActivity
         });
         mBSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mEventData.setEventData(mTvEventName.getText().toString(), mSvInHonorOf.getSelectedItem().toString(),
+                View sv = mSvInHonorOf.getSelectedView();
+                String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
+                mEventData.setEventData(mTvEventName.getText().toString(),cname ,
                         mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
                         mTvDateTo.getText().toString(), mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
                         m_actions, m_notes, mCbAllDay.isChecked());
