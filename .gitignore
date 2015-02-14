@@ -1,0 +1,12 @@
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Ignore Gradle GUI config
+gradle-app.setting
+.idea
+FriendsTime.imlOleg
+local.properties
+/FriendsTimeJan25_2014_demowithYelp_first_prototype.gif
