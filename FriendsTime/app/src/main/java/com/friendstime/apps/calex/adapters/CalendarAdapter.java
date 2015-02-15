@@ -14,7 +14,6 @@ import com.friendstime.apps.calex.fragments.EventPlannerFragment;
 import com.friendstime.apps.calex.model.CurrentData;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -25,15 +24,18 @@ import java.util.Locale;
  */
 public class CalendarAdapter extends BaseAdapter {
     private Context mContext;
-
     private CurrentData mCurrentData;
     int mFirstDay;
-    String itemvalue, curentDateString;
+    String mItemvalue;
+    String mCurentDateString;
     DateFormat mDateFormat;
 
     private ArrayList<String> mItems;
     public static List<String> mDayStrings;
-    private View previousView;
+
+    // Previously selected view.
+    private View mPreviousView;
+
     private EventPlannerFragment.DisplayView mDisplayView;
 
     public CalendarAdapter(Context c, CurrentData currentData) {
@@ -54,6 +56,7 @@ public class CalendarAdapter extends BaseAdapter {
         this.mItems = items;
     }
 
+    // This many gridview boxes are created.
     public int getCount() {
         return mDayStrings.size();
     }
@@ -114,7 +117,9 @@ public class CalendarAdapter extends BaseAdapter {
         if (isClickable(Integer.parseInt(gridvalue), position)
                 && mDayStrings.get(position).equals(mCurrentData.getCurrentDateString())) {
             setSelected(v);
-            previousView = v;
+            mPreviousView = v;
+            // Right now Today's date is selected date.
+            mCurrentData.setSelectedDate(mDayStrings.get(position));
         } else {
             v.setBackgroundResource(R.drawable.list_item_background);
         }
@@ -142,10 +147,10 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public View setSelected(View view) {
-        if (previousView != null) {
-            previousView.setBackgroundResource(R.drawable.list_item_background);
+        if (mPreviousView != null) {
+            mPreviousView.setBackgroundResource(R.drawable.list_item_background);
         }
-        previousView = view;
+        mPreviousView = view;
         view.setBackgroundResource(R.drawable.calendar_cel_selectl);
         return view;
     }
@@ -161,8 +166,8 @@ public class CalendarAdapter extends BaseAdapter {
             GregorianCalendar selectedDate =
                     (GregorianCalendar)mCurrentData.getCurrentMonth().clone();
             selectedDate.set(GregorianCalendar.DAY_OF_MONTH, mCurrentData.getCurrentDate());
-            itemvalue = mCurrentData.getDateFormat().format(selectedDate.getTime());
-            // mDayStrings.add(itemvalue);
+            mItemvalue = mCurrentData.getDateFormat().format(selectedDate.getTime());
+            // mDayStrings.add(mItemvalue);
             return;
         }
         
@@ -196,8 +201,8 @@ public class CalendarAdapter extends BaseAdapter {
                     continue;
                 }
             }
-            itemvalue = mCurrentData.getDateFormat().format(prevMonth.getTime());
-            mDayStrings.add(itemvalue);
+            mItemvalue = mCurrentData.getDateFormat().format(prevMonth.getTime());
+            mDayStrings.add(mItemvalue);
         }
     }
 }

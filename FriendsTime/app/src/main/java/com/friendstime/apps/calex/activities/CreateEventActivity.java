@@ -1,5 +1,7 @@
 package com.friendstime.apps.calex.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -61,9 +63,13 @@ public class CreateEventActivity extends ActionBarActivity
     //private ArrayAdapter<String> mInHonorOfNameAdapter;
     private ArrayList<Contact> mListContacts;
     private ArrayAdapter<String> mOccasionAdapter;
+    public static final String EVENT_DATE = "event_date";
 
-
-
+    public static Intent newIntent(Context packageContext, String eventDate) {
+        Intent i = new Intent(packageContext, CreateEventActivity.class);
+        i.putExtra(EVENT_DATE, eventDate);
+        return i;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,11 @@ public class CreateEventActivity extends ActionBarActivity
         mTvEventDescription = (EditText) findViewById(R.id.tvEventDescription);
         mTvDateFrom = (EditText) findViewById(R.id.tvDateFrom);
         mTvDateTo = (EditText) findViewById(R.id.tvDateTo);
+        String eventDate = (String)getIntent().getSerializableExtra(EVENT_DATE);
+        if (eventDate != null && !eventDate.isEmpty()) {
+            mTvDateFrom.setText(eventDate);
+            mTvDateTo.setText(eventDate);
+        }
         mTvTimeFrom = (EditText) findViewById(R.id.tvTimeFrom);
         mTvTimeTo = (EditText) findViewById(R.id.tvTimeTo);
         mBtAddInHonor = (ImageButton) findViewById(R.id.btAddInHonor);
@@ -118,9 +129,7 @@ public class CreateEventActivity extends ActionBarActivity
                         mTvDateTo.getText().toString(), mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
                         m_actions, m_notes, mCbAllDay.isChecked());
                 mEventData.save(getBaseContext());
-            }
-
-            ;
+            };
         });
 
         mBtActions.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +189,7 @@ public class CreateEventActivity extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds mItems to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_create_event, menu);
         return true;
     }

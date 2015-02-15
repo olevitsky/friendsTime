@@ -14,6 +14,7 @@ public class CurrentData {
     private int mCurrentDate;
     private DateFormat mDateFormat;
     private String mCurrentDateString;
+    private String mSelectedDate;
 
     public CurrentData() {
         mCurrentMonth = (GregorianCalendar) GregorianCalendar.getInstance();
@@ -124,5 +125,13 @@ public class CurrentData {
         } else {
             --mCurrentDate;
         }
+    }
+
+    public void setSelectedDate(String selectedDate) {
+        mSelectedDate = selectedDate;
+    }
+
+    public String getSelectedDate() {
+        return mSelectedDate;
     }
 }

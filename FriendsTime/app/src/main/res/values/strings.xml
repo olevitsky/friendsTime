@@ -19,7 +19,7 @@
     <string name="ShortEventDescrStr">Short Event Description</string>
     <string name="fromStr">From</string>
     <string name="toStr">To</string>
-    <string name="dateStr">mm/dd/yy</string>
+    <string name="dateStr">yyyy/mm/dd</string>
     <string name="timeStr">hh:mm</string>
     <string name="allDayStr">All Day</string>
     <string name="saveStr">Save</string>
@@ -28,5 +28,6 @@
     <string name="actionStr">Actions</string>
     <string name="notesStr">Notes</string>
     <string name="chooseOccasionStr">Choose Event</string>
+    <string name="create_new_event">Create New Event</string>
 
 </resources>

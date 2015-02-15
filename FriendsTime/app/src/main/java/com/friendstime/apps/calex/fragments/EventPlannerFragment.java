@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,31 +42,37 @@ import java.util.Locale;
  * create an instance of this fragment.
  */
 public class EventPlannerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
-    public GregorianCalendar itemmonth;  // Calendar instances.
+    // Calendar instances.
+    public GregorianCalendar mItemMonth;
 
+    // Current Month Data.
     public CurrentData mCurrentData;
 
-    public CalendarAdapter mCalendarAdapter;// mCalendarAdapter instance
-    public Handler mHandler;// for grabbing some event values for showing the dot
-    // marker.
-    public ArrayList<String> items; // container to store calendar items which
-    // needs showing the event marker
-    ArrayList<String> event;
-    LinearLayout rLayout;
-    ArrayList<String> date;
-    ArrayList<String> desc;
+    // Adapter to display calendar.
+    public CalendarAdapter mCalendarAdapter;
+
+    // For grabbing some mEvent values for showing the dot.
+    public Handler mHandler;
+
+    // container to store calendar mItems which
+    // Needs showing the mEvent marker.
+    public ArrayList<String> mItems;
+    ArrayList<String> mEvent;
+
+    // Row Layout to show the description of events.
+    LinearLayout mRowLayout;
+
+    //ArrayList<String> date;
+
+    // Descriptions of the events.
+    ArrayList<String> mDesc;
+
     TextView mTitleView;
+
+    Button mCreateNewEvent;
+
     public enum DisplayView {
         VIEW_MONTH, VIEW_WEEK, VIEW_DAY, VIEW_SURPRISE
     }
@@ -73,19 +80,12 @@ public class EventPlannerFragment extends Fragment {
 
     /**
      * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * this fragment.
      * @return A new instance of fragment PlannerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EventPlannerFragment newInstance(String param1, String param2) {
+    public static EventPlannerFragment newInstance() {
         EventPlannerFragment fragment = new EventPlannerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -127,10 +127,6 @@ public class EventPlannerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         mDisplayView = DisplayView.VIEW_MONTH;
         setHasOptionsMenu(true);
     }
@@ -138,29 +134,28 @@ public class EventPlannerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_planner, container, false);
         Locale.setDefault(Locale.US);
 
-        rLayout = (LinearLayout)v.findViewById(R.id.text);
+        mRowLayout = (LinearLayout) v.findViewById(R.id.event_description);
         mCurrentData = new CurrentData();
-        itemmonth = (GregorianCalendar) mCurrentData.getCurrentMonth().clone();
+        mItemMonth = (GregorianCalendar) mCurrentData.getCurrentMonth().clone();
 
-        items = new ArrayList<String>();
+        mItems = new ArrayList<String>();
 
         mCalendarAdapter = new CalendarAdapter(getActivity(), mCurrentData);
-
-        GridView gridview = (GridView)v.findViewById(R.id.gridview);
+        GridView gridview = (GridView) v.findViewById(R.id.gridview);
         gridview.setAdapter(mCalendarAdapter);
 
         mHandler = new Handler();
         mHandler.post(calendarUpdater);
 
-        mTitleView = (TextView)v.findViewById(R.id.title);
+        mTitleView = (TextView) v.findViewById(R.id.title);
         mTitleView.setText(android.text.format.DateFormat.format("MMMM yyyy",
                 mCurrentData.getCurrentMonth()));
 
-        ImageView previous = (ImageView)v.findViewById(R.id.previous);
+        ImageView previous = (ImageView) v.findViewById(R.id.previous);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +171,7 @@ public class EventPlannerFragment extends Fragment {
             }
         });
 
-        ImageView next = (ImageView)v.findViewById(R.id.next);
+        ImageView next = (ImageView) v.findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,17 +190,19 @@ public class EventPlannerFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 // removing the previous view if added
-                if (((LinearLayout) rLayout).getChildCount() > 0) {
-                    ((LinearLayout) rLayout).removeAllViews();
+                if (((LinearLayout) mRowLayout).getChildCount() > 0) {
+                    ((LinearLayout) mRowLayout).removeAllViews();
                 }
-                desc = new ArrayList<String>();
-                date = new ArrayList<String>();
+                mDesc = new ArrayList<String>();
+                // date = new ArrayList<String>();
                 ((CalendarAdapter) parent.getAdapter()).setSelected(v);
                 String selectedGridDate = CalendarAdapter.mDayStrings
                         .get(position);
                 String[] separatedTime = selectedGridDate.split("-");
-                String gridvalueString = separatedTime[2].replaceFirst("^0*",
-                        "");// taking last part of date. ie; 2 from 2012-12-02.
+
+                // Taking last part of date. ie; 2 from 2012-12-02.
+                String gridvalueString = separatedTime[2].replaceFirst("^0*", "");
+
                 int gridvalue = Integer.parseInt(gridvalueString);
                 // navigate to next or previous mCurrentMonth on clicking offdays.
                 if ((gridvalue > 10) && (position < 8)) {
@@ -216,36 +213,45 @@ public class EventPlannerFragment extends Fragment {
                     refreshCalendar();
                 }
                 ((CalendarAdapter) parent.getAdapter()).setSelected(v);
+                mCurrentData.setSelectedDate(CalendarAdapter.mDayStrings.get(position));
 
                 for (int i = 0; i < Utility.startDates.size(); i++) {
                     if (Utility.startDates.get(i).equals(selectedGridDate)) {
-                        desc.add(Utility.nameOfEvent.get(i));
+                        mDesc.add(Utility.nameOfEvent.get(i));
                     }
                 }
 
-                if (desc.size() > 0) {
-                    for (int i = 0; i < desc.size(); i++) {
+                if (mDesc.size() > 0) {
+                    for (int i = 0; i < mDesc.size(); i++) {
                         TextView rowTextView = new TextView(getActivity());
 
                         // set some properties of rowTextView or something
-                        rowTextView.setText("Event:" + desc.get(i));
+                        rowTextView.setText("Event:" + mDesc.get(i));
                         rowTextView.setTextColor(Color.BLACK);
 
                         // add the textview to the linearlayout
-                        rLayout.addView(rowTextView);
-
+                        mRowLayout.addView(rowTextView);
                     }
-
                 }
 
-                desc = null;
+                mDesc = null;
             }
 
         });
+        mCreateNewEvent = (Button) v.findViewById(R.id.create_new_event);
+        mCreateNewEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = CreateEventActivity.newIntent(getActivity(),
+                        mCurrentData.getSelectedDate());
+                startActivity(i);
+            }
+        });
+
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, update argument and hook method into UI mEvent
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -292,7 +298,7 @@ public class EventPlannerFragment extends Fragment {
     public void refreshCalendar() {
         mCalendarAdapter.populateDays(mDisplayView);
         mCalendarAdapter.notifyDataSetChanged();
-        mHandler.post(calendarUpdater); // generate some calendar items
+        mHandler.post(calendarUpdater); // generate some calendar mItems
 
         if (mDisplayView == DisplayView.VIEW_DAY) {
             mTitleView.setText("" + mCurrentData.getCurrentDate()
@@ -308,7 +314,7 @@ public class EventPlannerFragment extends Fragment {
 
         @Override
         public void run() {
-            items.clear();
+            mItems.clear();
         }
     };
 
@@ -316,20 +322,20 @@ public class EventPlannerFragment extends Fragment {
 
         @Override
         public void run() {
-            items.clear();
+            mItems.clear();
             // Print dates of the current week
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             String itemvalue;
-            event = Utility.readCalendarEvent(getActivity(), false /* forceRefresh */);
-            // Log.d("=====Event====", event.toString());
+            mEvent = Utility.readCalendarEvent(getActivity(), false /* forceRefresh */);
+            // Log.d("=====Event====", mEvent.toString());
             // Log.d("=====Date ARRAY====", Utility.startDates.toString());
 
             for (int i = 0; i < Utility.startDates.size(); i++) {
-                itemvalue = df.format(itemmonth.getTime());
-                itemmonth.add(GregorianCalendar.DATE, 1);
-                items.add(Utility.startDates.get(i).toString());
+                itemvalue = df.format(mItemMonth.getTime());
+                mItemMonth.add(GregorianCalendar.DATE, 1);
+                mItems.add(Utility.startDates.get(i).toString());
             }
-            mCalendarAdapter.setItems(items);
+            mCalendarAdapter.setItems(mItems);
             mCalendarAdapter.notifyDataSetChanged();
         }
     };

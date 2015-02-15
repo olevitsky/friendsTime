@@ -12,7 +12,7 @@ public class EventPlanner extends SingleFragmentActivity
 
     @Override
     protected Fragment createFragment() {
-        return EventPlannerFragment.newInstance("dummy1", "dummy2");
+        return EventPlannerFragment.newInstance();
     }
 
     public void onFragmentInteraction(Uri uri) {
