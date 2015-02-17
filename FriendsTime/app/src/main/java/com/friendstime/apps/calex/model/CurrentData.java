@@ -1,5 +1,7 @@
 package com.friendstime.apps.calex.model;
 
+import com.friendstime.apps.calex.utils.Utility;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -20,7 +22,8 @@ public class CurrentData {
         mCurrentMonth = (GregorianCalendar) GregorianCalendar.getInstance();
         mCurrentWeek = mCurrentMonth.get(GregorianCalendar.WEEK_OF_MONTH);
         mCurrentDate = mCurrentMonth.get(GregorianCalendar.DAY_OF_MONTH);
-        mDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        //mDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        mDateFormat = new SimpleDateFormat(Utility.DateFormatMonthDayYearString, Locale.US);
         mCurrentDateString = mDateFormat.format(mCurrentMonth.getTime());
     }
 

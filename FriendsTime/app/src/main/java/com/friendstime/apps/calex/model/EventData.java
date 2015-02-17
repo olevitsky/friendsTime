@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.widget.Toast;
 
+import com.friendstime.apps.calex.utils.Utility;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -33,24 +34,29 @@ public class EventData extends ParseObject {
     //int search radius (miles)
 
     //non-persistent data
-    Contact contact;
+    Contact m_contact;
     public EventData() {
         super();
-        contact = null;
+        m_contact = null;
     }
 
-    public void setEventData(String eventName, Contact contact, String occasion, String dateFrom,
+    public void setEventData(Context context, String eventName, Contact contact, String occasion, String dateFrom,
                               String timeFrom, String timeTo, String location, String foodPreference,
                               String notes, String actions) {
 
-
         String in_honorOfLookupUri = contact.getContactLookupURI();
+        m_contact = contact;
         put("eventName", eventName);
         put("inHonorOfLookupURI",in_honorOfLookupUri );
         put("occasion", occasion);
-        String fromDateObjStr = dateFrom + "," + timeFrom;
-        String toDateObjStr = dateFrom + "," +timeTo;
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy,HH:mm");
+        String dateTimeFrom = timeFrom.length() == 0 ?  "00:00" : timeFrom;
+        String dateTimeTo = timeTo.length() == 0 ?  "00:00" : timeTo;
+        String fromDateObjStr = dateFrom + "," + dateTimeFrom;
+        String toDateObjStr = dateFrom + "," +dateTimeTo;
+        //SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy,HH:mm");
+        SimpleDateFormat formatter = new
+                SimpleDateFormat(Utility.DateFormatMonthDayYearString + ","+Utility.DateFormatTimeString);
+
         try {
             Date fromDateObj = formatter.parse(fromDateObjStr);
             Date toDateObj = formatter.parse(toDateObjStr);
@@ -59,6 +65,8 @@ public class EventData extends ParseObject {
             put("duration", duration);
         } catch (ParseException e) {
             e.printStackTrace();
+            Toast.makeText(context, "DataFormat is wrong " + "fromDateObjStr= " +  fromDateObjStr  +
+                    "toDateObjStr= " + toDateObjStr, Toast.LENGTH_SHORT).show();
         }
 
         put("location", location);
@@ -78,7 +86,7 @@ public class EventData extends ParseObject {
     ) {
 
         String eventName = getString("eventName");
-        String inHonorOf = contact.getContactName();
+        String inHonorOf = m_contact.getContactName();
         String inHonorOfFromURI = "???";
         String URIName = "???";
         String occasion = getString("occasion");
@@ -93,7 +101,7 @@ public class EventData extends ParseObject {
         String notes = getString("notes");
         String actions = getString("actions");
 
-        String uriString = contact.getContactLookupURI();
+        String uriString = m_contact.getContactLookupURI();
         Uri lookupURI = Uri.parse(uriString);
         final String[] contactProjection = new String[] {ContactsContract.Contacts.DISPLAY_NAME};
         Cursor c = context.getContentResolver().query(lookupURI,contactProjection, null, null, null);

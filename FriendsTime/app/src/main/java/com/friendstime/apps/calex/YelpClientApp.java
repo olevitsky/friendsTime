@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class YelpClientApp extends com.activeandroid.app.Application {
     private static Context sContext;
     private static ParseClient mParseClient;
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -126,7 +126,7 @@ public class CreateEventActivity extends ActionBarActivity
                 Contact contact = (Contact) (mSvInHonorOf.getItemAtPosition(pos));
                 //String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
 
-                mEventData.setEventData(mTvEventName.getText().toString(),contact ,
+                mEventData.setEventData(getBaseContext(), mTvEventName.getText().toString(),contact ,
                         mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
                         mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
                         "location", "foodPref", m_actions, m_notes);
