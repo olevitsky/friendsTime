@@ -1,37 +1,25 @@
 package com.friendstime.apps.calex.model;
 
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
 
 /**
  * Created by oleg on 2/4/2015.
  */
-@ParseClassName("ContactPhone")
-public class ContactPhone extends ParseObject{
-    //public String number;
-    //public String type;
-    //Contact contactId
 
-    public ContactPhone () {
-        super();
+public class ContactPhone {
+    private String m_number;
+    private String m_type;
 
-    }
-
-    public void setContactPhone(String number, String type, Contact cid) {
-        put("number", number);
-        put("type", type);
-        put("contactId" , cid);
+    public ContactPhone (String number, String type) {
+        m_number = number;
+        m_type = type;
     }
 
     public String getType() {
-        return (getString("type"));
+        return m_type;
     }
 
     public String getNumber() {
-        return (getString("number"));
+        return m_number;
     }
 
-    public Contact contactId() {
-        return ((Contact) get("contactId"));
-    }
 }

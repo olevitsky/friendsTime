@@ -19,8 +19,7 @@ public class ParseClient {
 
     private ParseClient(Context ctx) {
         ParseObject.registerSubclass(Contact.class);
-        ParseObject.registerSubclass(ContactPhone.class);
-        ParseObject.registerSubclass(ContactEmail.class);
+        ParseObject.registerSubclass(EventData.class);
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseACL defaultACL = new ParseACL();
         Parse.enableLocalDatastore(ctx);

@@ -42,15 +42,15 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         // sure if it is something to worry about
         // check if method 2 from this link is faster:
         //http://guides.codepath.com/android/Loading-Contacts-with-Content-Providers
-        if(!contact.isEmailSet())
-            ContactFetcher.fetchContactEmails(contact, getContext());
-        if(!contact.isNumberSet())
-            ContactFetcher.fetchContactNumbers(contact, getContext());
-        if (contact.mEmails.size() > 0 && contact.mEmails.get(0) != null) {
-            tvEmail.setText(contact.mEmails.get(0).getAddress());
+        if(!contact.isEmailNumberSet()) {
+            ContactFetcher.fetchContactNumbersAndEmail(contact, getContext());
         }
-        if (contact.mNumbers.size() > 0 && contact.mNumbers.get(0) != null) {
-            tvPhone.setText(contact.mNumbers.get(0).getNumber());
+
+        if (contact.numEmails() != 0) {
+            tvEmail.setText(contact.getFirstEmail().getAddress());
+        }
+        if (contact.numNumbers() != 0) {
+            tvPhone.setText(contact.getFirstNumber().getNumber());
         }
 
         //debug

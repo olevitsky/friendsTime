@@ -15,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
@@ -123,11 +122,14 @@ public class CreateEventActivity extends ActionBarActivity
         mBSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 View sv = mSvInHonorOf.getSelectedView();
-                String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
-                mEventData.setEventData(mTvEventName.getText().toString(),cname ,
+                int pos = mSvInHonorOf.getSelectedItemPosition();
+                Contact contact = (Contact) (mSvInHonorOf.getItemAtPosition(pos));
+                //String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
+
+                mEventData.setEventData(mTvEventName.getText().toString(),contact ,
                         mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
-                        mTvDateTo.getText().toString(), mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
-                        m_actions, m_notes, mCbAllDay.isChecked());
+                        mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
+                        "location", "foodPref", m_actions, m_notes);
                 mEventData.save(getBaseContext());
             };
         });

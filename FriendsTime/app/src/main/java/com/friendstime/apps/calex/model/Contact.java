@@ -10,38 +10,52 @@ import java.util.ArrayList;
  */
 @ParseClassName("Contact")
 public class Contact extends ParseObject {
-    //public String id;
-    //public String name;
+    //PARSE OBJECTS:
+    //String contentLookupURI (CONTENT_LOOKUP_URI)
+    //String name;
 
-    public ArrayList<ContactEmail> mEmails;
-    public ArrayList<ContactPhone> mNumbers;
+    // Future item
+    //String preferences (string of string preferences separated by ':'. Will be more complex object
+    // in the future - preferences for food, travel, lodging, etc. May require separate DB objects
 
+    // these two objects will be filled as needed using CONTENT_LOOKUP_URI
+    private ArrayList<ContactEmail> m_emails;
+    private ArrayList<ContactPhone> m_numbers;
+    // Indicates that Emails and Phones have been retrieved. The lists still can be empty
+    private boolean mIsEmailNumberSet;
+    private String m_localId; //contact id
 
 
 
     // needed for Parse
     public Contact () {
         super();
-        this.mEmails = new ArrayList<ContactEmail>();
-        this.mNumbers = new ArrayList<ContactPhone>();
+        this.m_emails = new ArrayList<ContactEmail>();
+        this.m_numbers = new ArrayList<ContactPhone>();
+        mIsEmailNumberSet = false;
+        m_localId = "-1";
     }
 
-    public void setContact(String id, String name) {
 
-        put("id", id);
+    public void setLocalId(String id) {
+        m_localId = id;
+    }
+
+    public String getLocalId() {
+        return m_localId;
+    }
+    public void setContact(String contentLookupURI, String name) {
+
+        put("contentLookupURI", contentLookupURI);
         put("name", name);
 
     }
 
-    public boolean isEmailSet() {
-        return (mEmails.size() != 0);
+    public void setIsEmailNumberSet(boolean v) {
+        mIsEmailNumberSet = v;
     }
-
-    public boolean isNumberSet() {
-        return (mNumbers.size() != 0);
-    }
-    public int getContactId() {
-        return (getInt("id"));
+    public String getContactLookupURI() {
+        return (getString("contentLookupURI"));
     }
 
     public String getContactName() {
@@ -49,14 +63,38 @@ public class Contact extends ParseObject {
     }
 
     public void addEmail(String address, String type) {
-        ContactEmail ce = new ContactEmail();
-        ce.setContactEmail(address, type, this);
-        mEmails.add(ce);
+        ContactEmail ce = new ContactEmail(address, type);
+        m_emails.add(ce);
     }
 
     public void addNumber(String number, String type) {
-        ContactPhone cp = new ContactPhone();
-        cp.setContactPhone(number, type, this);
-        mNumbers.add(cp);
+        ContactPhone cp = new ContactPhone(number, type);
+        m_numbers.add(cp);
+    }
+
+    public boolean isEmailNumberSet() {
+        return mIsEmailNumberSet;
+    }
+
+    public int numEmails() {
+        return m_emails.size();
+    }
+
+    public int numNumbers() {
+        return m_numbers.size();
+    }
+
+    public ContactEmail getFirstEmail() {
+        if (m_emails.size()!= 0) {
+            return m_emails.get(0);
+        }
+        return null;
+    }
+
+    public ContactPhone getFirstNumber() {
+        if (m_numbers.size()!= 0) {
+            return m_numbers.get(0);
+        }
+        return null;
     }
 }
