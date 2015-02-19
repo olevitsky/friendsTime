@@ -1,5 +1,7 @@
 package com.friendstime.apps.calex.model;
 
+import android.content.Context;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 @ParseClassName("Contact")
 public class Contact extends ParseObject {
     //PARSE OBJECTS:
+    public final String KEY_CONTENT_LOOKUP_URI = "contentLookupURI";
+    public final String KEY_NAME = "name";
     //String contentLookupURI (CONTENT_LOOKUP_URI)
     //String name;
 
@@ -46,8 +50,8 @@ public class Contact extends ParseObject {
     }
     public void setContact(String contentLookupURI, String name) {
 
-        put("contentLookupURI", contentLookupURI);
-        put("name", name);
+        put("KEY_CONTENT_LOOKUP_URI", contentLookupURI);
+        put("NAME", name);
 
     }
 
@@ -55,11 +59,11 @@ public class Contact extends ParseObject {
         mIsEmailNumberSet = v;
     }
     public String getContactLookupURI() {
-        return (getString("contentLookupURI"));
+        return (getString("KEY_CONTENT_LOOKUP_URI"));
     }
 
     public String getContactName() {
-        return (getString("name"));
+        return (getString("NAME"));
     }
 
     public void addEmail(String address, String type) {
@@ -96,5 +100,9 @@ public class Contact extends ParseObject {
             return m_numbers.get(0);
         }
         return null;
+    }
+
+    public void saveContact (Context context) {
+        RemoteDBClient.saveContact(this);
     }
 }

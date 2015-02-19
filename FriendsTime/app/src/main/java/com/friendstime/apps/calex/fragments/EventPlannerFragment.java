@@ -25,6 +25,7 @@ import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.activities.CreateEventActivity;
 import com.friendstime.apps.calex.adapters.CalendarAdapter;
 import com.friendstime.apps.calex.model.CurrentData;
+import com.friendstime.apps.calex.model.EventDataStore;
 import com.friendstime.apps.calex.utils.Utility;
 
 import java.text.DateFormat;
@@ -247,7 +248,7 @@ public class EventPlannerFragment extends Fragment {
                 startActivity(i);
             }
         });
-
+        EventDataStore.getInstance().populateEventData(getActivity());
         return v;
     }
 

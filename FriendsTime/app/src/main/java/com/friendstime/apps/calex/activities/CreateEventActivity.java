@@ -24,6 +24,7 @@ import com.friendstime.apps.calex.fragments.CreateEventActivityDialogFragment;
 import com.friendstime.apps.calex.model.Business;
 import com.friendstime.apps.calex.model.Contact;
 import com.friendstime.apps.calex.model.EventData;
+import com.friendstime.apps.calex.model.EventDataStore;
 import com.friendstime.apps.calex.model.YelpClient;
 import com.friendstime.apps.calex.utils.ContactFetcher;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -54,8 +55,7 @@ public class CreateEventActivity extends ActionBarActivity
     private Button mBSave;
     private Button mBtSurpriseMe;
     private Button mBtCancel;
-
-    private EventData mEventData = new EventData();
+    private Button mBClear;
 
 
     private String[] m_occasions = {"birthday" , "friday" , "eve beer"};
@@ -96,6 +96,7 @@ public class CreateEventActivity extends ActionBarActivity
         mCbAllDay =  (CheckBox)  findViewById(R.id.cbAllDay);
         mBtSurpriseMe = (Button) findViewById(R.id.btSurpriseMe);
         mBtCancel = (Button) findViewById(R.id.btCancel);
+        mBClear = (Button) findViewById(R.id.btClear);
         //mInHonorOfNameAdapter = new ArrayAdapter<String>(this,
        //         android.R.layout.simple_spinner_item, inHonorOfNameStr);
         //mInHonorOfNameAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
@@ -125,13 +126,28 @@ public class CreateEventActivity extends ActionBarActivity
                 int pos = mSvInHonorOf.getSelectedItemPosition();
                 Contact contact = (Contact) (mSvInHonorOf.getItemAtPosition(pos));
                 //String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
-
-                mEventData.setEventData(getBaseContext(), mTvEventName.getText().toString(),contact ,
+                EventData eventData = new EventData();
+                Contact savedContact =
+                        EventDataStore.getInstance().getContactFromMap(contact.getContactLookupURI());
+                if(savedContact == null) {
+                    savedContact = contact;
+                    contact.saveContact(getBaseContext());
+                }
+                eventData.setEventData(getBaseContext(), mTvEventName.getText().toString(),savedContact ,
                         mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
                         mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
                         "location", "foodPref", m_actions, m_notes);
-                mEventData.save(getBaseContext());
+                eventData.save(getBaseContext());
+                EventDataStore.getInstance().addEventData(eventData);
+                eventData.printDebug(getBaseContext());
             };
+        });
+
+        mBClear.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EventDataStore.debugPrint(getBaseContext());
+                //EventData.clearDebug(getBaseContext());
+            }
         });
 
         mBtActions.setOnClickListener(new View.OnClickListener() {
