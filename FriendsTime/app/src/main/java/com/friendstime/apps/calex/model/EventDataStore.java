@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class EventDataStore {
     //private ArrayList<EventData> mEventDataList;
-    private Map<String, List<EventData>> mEventDataMap;
+    private Map<String, ArrayList<EventData>> mEventDataMap;
     private Map<String, Contact> mContactMap;
     private static EventDataStore mInstance;
 
@@ -31,7 +31,7 @@ public class EventDataStore {
         mContactMap = new HashMap<>();
     }
 
-    private Map<String, List<EventData>> getEventDataMap() {
+    public Map<String, ArrayList<EventData>> getEventDataMap() {
         return mEventDataMap;
     }
 
@@ -42,8 +42,8 @@ public class EventDataStore {
         return mInstance;
     }
 
-    private List getEventDataListFromMap(String key) {
-        List evdList;
+    public ArrayList<EventData> getEventDataListFromMap(String key) {
+        ArrayList<EventData> evdList;
         if(mEventDataMap.containsKey(key)) {
             evdList = mEventDataMap.get(key);
         } else {
@@ -51,10 +51,11 @@ public class EventDataStore {
         }
         return evdList;
     }
+
     public void addEventData(EventData ed) {
         //mEventDataList.add(ed);
         String key = getEventDataMapKey(ed);
-        List evdList = getEventDataListFromMap(key);
+        ArrayList<EventData> evdList = getEventDataListFromMap(key);
         evdList.add(ed);
         mEventDataMap.put(key, evdList);
         mContactMap.put(ed.getInHonorOfFromURI(), ed.getContact());
@@ -76,7 +77,7 @@ public class EventDataStore {
                             for (int i = 0 ; i< eventDatas.size(); i++) {
                                 EventData ed = eventDatas.get(i);
                                 String key = getEventDataMapKey(ed);
-                                List evdList = getEventDataListFromMap(key);
+                                ArrayList<EventData> evdList = getEventDataListFromMap(key);
                                 evdList.add(ed);
                                 mEventDataMap.put(key, evdList);
                                 ed.setContact(mContactMap.get(ed.getInHonorOfFromURI()));

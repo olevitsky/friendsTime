@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.fragments.EventPlannerFragment;
 import com.friendstime.apps.calex.model.CurrentData;
+import com.friendstime.apps.calex.model.EventDataStore;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class CalendarAdapter extends BaseAdapter {
     DateFormat mDateFormat;
 
     // It contains those date strings for which we have some events.
+    // TODO: remove this . not needed.
     private ArrayList<String> mItems;
 
     // All daystrings corresponding to this Month or Week or Day view.
@@ -141,7 +143,8 @@ public class CalendarAdapter extends BaseAdapter {
 
         // show icon if date is not empty and it exists in the mItems array
         ImageView iw = (ImageView) v.findViewById(R.id.date_icon);
-        if (date.length() > 0 && mItems != null && mItems.contains(date)) {
+        if (date.length() > 0
+                && EventDataStore.getInstance().getEventDataListFromMap(date).size() > 0) {
             iw.setVisibility(View.VISIBLE);
         } else {
             iw.setVisibility(View.INVISIBLE);

@@ -151,11 +151,10 @@ public class EventPlannerFragment extends Fragment {
         GridView gridview = (GridView) v.findViewById(R.id.gridview);
         gridview.setAdapter(mCalendarAdapter);
         // No need to populate again and again.
-        if (EventDataStore.getInstance().getEventDataList().size() <= 0) {
+        if (EventDataStore.getInstance().getEventDataMap().size() <= 0) {
             EventDataStore.getInstance().populateEventData(getActivity());
         }
         mHandler = new Handler();
-        mHandler.post(calendarUpdater2);
 
         mTitleView = (TextView) v.findViewById(R.id.title);
         mTitleView.setText(android.text.format.DateFormat.format("MMMM yyyy",
@@ -239,18 +238,14 @@ public class EventPlannerFragment extends Fragment {
         }
         mDesc = new ArrayList<String>();
 
-        ArrayList<EventData> allEvents = EventDataStore.getInstance().getEventDataList();
+        ArrayList<EventData> allEvents = EventDataStore.getInstance().
+                getEventDataListFromMap(selectedDate);
         for (EventData eventData : allEvents) {
             String eventDate = eventData.getFromDateString();
             if (eventData.getFromDateString().equals(selectedDate)) {
                 mDesc.add(eventData.getEventDescription(getActivity()));
             }
         }
-        // for (int i = 0; i < Utility.startDates.size(); i++) {
-        //    if (Utility.startDates.get(i).equals(selectedGridDate)) {
-        //        mDesc.add(Utility.nameOfEvent.get(i));
-        //    }
-        // }
 
         if (mDesc.size() > 0) {
             for (int i = 0; i < mDesc.size(); i++) {
@@ -363,14 +358,17 @@ public class EventPlannerFragment extends Fragment {
     public Runnable calendarUpdater2 = new Runnable() {
         @Override
         public void run() {
-            addDotIfEvent();
+            mCalendarAdapter.notifyDataSetChanged();
+            //addDotIfEvent();
         }
     };
 
+    /*
     public void addDotIfEvent() {
         mItems.clear();
         // Print dates of the current week
-        ArrayList<EventData> allEvents = EventDataStore.getInstance().getEventDataList();
+        ArrayList<EventData> allEvents = EventDataStore.getInstance().
+                getEventDataListFromMap(selectedDate);
         for (EventData eventData : allEvents) {
             String eventDate = eventData.getFromDateString();
             mItems.add(eventDate);
@@ -378,4 +376,5 @@ public class EventPlannerFragment extends Fragment {
         mCalendarAdapter.setItems(mItems);
         mCalendarAdapter.notifyDataSetChanged();
     }
+    */
 }
