@@ -25,9 +25,10 @@ public class EventDataStore {
         mContactMap = new HashMap<>();
     }
 
-    private ArrayList<EventData> getEventDataList() {
+    public ArrayList<EventData> getEventDataList() {
         return mEventDataList;
     }
+
     public static EventDataStore getInstance() {
         if (mInstance == null) {
             mInstance = new EventDataStore();

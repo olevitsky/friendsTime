@@ -30,7 +30,10 @@ public class CalendarAdapter extends BaseAdapter {
     String mCurentDateString;
     DateFormat mDateFormat;
 
+    // It contains those date strings for which we have some events.
     private ArrayList<String> mItems;
+
+    // All daystrings corresponding to this Month or Week or Day view.
     public static List<String> mDayStrings;
 
     // Previously selected view.
@@ -156,7 +159,6 @@ public class CalendarAdapter extends BaseAdapter {
     }
 
     public void populateDays(EventPlannerFragment.DisplayView displayView) {
-        // clear mItems
         mItems.clear();
         mDayStrings.clear();
         Locale.setDefault(Locale.US);
@@ -167,6 +169,7 @@ public class CalendarAdapter extends BaseAdapter {
                     (GregorianCalendar)mCurrentData.getCurrentMonth().clone();
             selectedDate.set(GregorianCalendar.DAY_OF_MONTH, mCurrentData.getCurrentDate());
             mItemvalue = mCurrentData.getDateFormat().format(selectedDate.getTime());
+            mCurrentData.setSelectedDate(mItemvalue);
             // mDayStrings.add(mItemvalue);
             return;
         }
@@ -180,7 +183,7 @@ public class CalendarAdapter extends BaseAdapter {
         int monthLength = maxWeeknumber * 7;
         
         // Check previous mCurrentMonth is 31 days or lesser.
-        GregorianCalendar prevMonth = mCurrentData.getPreviousMonth();
+        GregorianCalendar prevMonth = (GregorianCalendar)mCurrentData.getPreviousMonth().clone();
         int maxP = prevMonth.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         
         int calMaxP = maxP - (mFirstDay - 1);// calendar offday starting 24,25 ...

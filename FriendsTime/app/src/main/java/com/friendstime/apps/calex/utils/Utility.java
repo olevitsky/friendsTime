@@ -19,6 +19,7 @@ public class Utility {
     public static String DateFormatMonthDayYearString = "yyyy-MM-dd";
     public static String DateFormatTimeString = "HH:mm";
 
+    // To sync up with Google calendar.
     public static ArrayList<String> readCalendarEvent(Context context, boolean forceRefresh) {
         if (nameOfEvent.size() > 0 && !forceRefresh) {
             return nameOfEvent;

@@ -68,6 +68,14 @@ public class EventData extends ParseObject {
         return getDate(KEY_DATE);
     }
 
+    public String getFromDateString() {
+        SimpleDateFormat ft =
+                new SimpleDateFormat ("yyyy-MM-dd,hh:mm");
+
+        String dateFromStr =  ft.format(getFromDate());
+        return dateFromStr.substring(0, dateFromStr.indexOf(','));
+    }
+
     public int getDuration() {
         return getInt(KEY_DURATION);
     }
@@ -170,7 +178,8 @@ public class EventData extends ParseObject {
 
         });
     }
-    public void printDebug(Context context) {
+
+    public String getEventDescription(Context context) {
         String eventName = getString(KEY_EVENT_NAME);
         String inHonorOf = "NOP"; //m_contact.getContactName();
         String inHonorOfFromURI = getString(KEY_INHONOROFLOOKUPURI);
@@ -208,12 +217,15 @@ public class EventData extends ParseObject {
 
         c.close();
 
-        Toast.makeText(context, "EventName= " + eventName + " InHonorOf= " + inHonorOf +
+        String description = "EventName= " + eventName + " InHonorOf= " + inHonorOf +
                 " EventDataURIName= " + EventDataURIName + " URIName= " + URIName +  " Occasion=" + occasion + " dateFrom " + dateFromStr +
                 " duration= " + durationStr +
                 " location= " + location + " foodPreference = " + foodPreference +  "notes= " + notes +
-                " actions= " + actions , Toast.LENGTH_LONG).show();
+                " actions= " + actions;
+        return description;
+    }
 
-
+    public void printDebug(Context context) {
+        Toast.makeText(context, getEventDescription(context), Toast.LENGTH_LONG).show();
     }
 }

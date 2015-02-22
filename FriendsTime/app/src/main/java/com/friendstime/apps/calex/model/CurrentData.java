@@ -1,5 +1,6 @@
 package com.friendstime.apps.calex.model;
 
+import com.friendstime.apps.calex.fragments.EventPlannerFragment;
 import com.friendstime.apps.calex.utils.Utility;
 
 import java.text.DateFormat;
@@ -127,6 +128,26 @@ public class CurrentData {
             setPreviousWeek();
         } else {
             --mCurrentDate;
+        }
+    }
+
+    public void setNextView(EventPlannerFragment.DisplayView displayView) {
+        if (displayView == EventPlannerFragment.DisplayView.VIEW_MONTH) {
+            this.setNextMonth();
+        } else if (displayView == EventPlannerFragment.DisplayView.VIEW_WEEK) {
+            this.setNextWeek();
+        } else if (displayView == EventPlannerFragment.DisplayView.VIEW_DAY) {
+            this.setNextDay();
+        }
+    }
+
+    public void setPreviousView(EventPlannerFragment.DisplayView displayView) {
+        if (displayView == EventPlannerFragment.DisplayView.VIEW_MONTH) {
+            this.setPreviousMonth();
+        } else if (displayView == EventPlannerFragment.DisplayView.VIEW_WEEK) {
+            this.setPreviousWeek();
+        } else if (displayView == EventPlannerFragment.DisplayView.VIEW_DAY) {
+            this.setPreviousDay();
         }
     }
 
