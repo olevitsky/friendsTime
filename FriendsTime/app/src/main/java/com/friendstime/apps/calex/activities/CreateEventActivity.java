@@ -28,6 +28,8 @@ import com.friendstime.apps.calex.model.EventDataStore;
 import com.friendstime.apps.calex.model.YelpClient;
 import com.friendstime.apps.calex.utils.ContactFetcher;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.ParseUser;
+import com.parse.ui.ParseLoginBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,6 +59,8 @@ public class CreateEventActivity extends ActionBarActivity
     private Button mBtCancel;
     private Button mBClear;
 
+
+    private final int PARSE_LOGIN_REQUEST_CODE = 0;
 
     private String[] m_occasions = {"birthday" , "friday" , "eve beer"};
     //private ArrayAdapter<String> mInHonorOfNameAdapter;
@@ -123,23 +127,15 @@ public class CreateEventActivity extends ActionBarActivity
         mBSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 View sv = mSvInHonorOf.getSelectedView();
-                int pos = mSvInHonorOf.getSelectedItemPosition();
-                Contact contact = (Contact) (mSvInHonorOf.getItemAtPosition(pos));
-                //String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
-                EventData eventData = new EventData();
-                Contact savedContact =
-                        EventDataStore.getInstance().getContactFromMap(contact.getContactLookupURI());
-                if(savedContact == null) {
-                    savedContact = contact;
-                    contact.saveContact(getBaseContext());
+                ParseUser user = ParseUser.getCurrentUser();
+                if(user==null) {
+                    //login
+                    ParseLoginBuilder builder = new ParseLoginBuilder(getBaseContext());
+                    startActivityForResult(builder.build(), PARSE_LOGIN_REQUEST_CODE);
+                } else {
+                    saveEventData();
                 }
-                eventData.setEventData(getBaseContext(), mTvEventName.getText().toString(),savedContact ,
-                        mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
-                        mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
-                        "location", "foodPref", m_actions, m_notes);
-                eventData.save(getBaseContext());
-                EventDataStore.getInstance().addEventData(eventData);
-                eventData.printDebug(getBaseContext());
+
             };
         });
 
@@ -244,6 +240,34 @@ public class CreateEventActivity extends ActionBarActivity
         }
         else { //should never come here
             Toast.makeText(this, "ERROR unknown title" + " " + title + " " + content, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void saveEventData() {
+        int pos = mSvInHonorOf.getSelectedItemPosition();
+        Contact contact = (Contact) (mSvInHonorOf.getItemAtPosition(pos));
+        //String cname = ((TextView) sv.findViewById(R.id.tvContactName)).getText().toString();
+        EventData eventData = new EventData();
+        Contact savedContact =
+                EventDataStore.getInstance().getContactFromMap(contact.getContactLookupURI());
+        if(savedContact == null) {
+            savedContact = contact;
+            contact.saveContact(getBaseContext());
+        }
+        eventData.setEventData(getBaseContext(), mTvEventName.getText().toString(),savedContact ,
+                mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
+                mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
+                "location", "foodPref", m_actions, m_notes);
+        eventData.save(getBaseContext());
+        EventDataStore.getInstance().addEventData(eventData);
+        eventData.printDebug(getBaseContext());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == RESULT_OK && requestCode == PARSE_LOGIN_REQUEST_CODE) {
+            saveEventData();
         }
     }
 }
