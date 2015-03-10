@@ -28,7 +28,12 @@ import com.friendstime.apps.calex.model.EventDataStore;
 import com.friendstime.apps.calex.model.YelpClient;
 import com.friendstime.apps.calex.utils.ContactFetcher;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SendCallback;
 import com.parse.ui.ParseLoginBuilder;
 
 import org.json.JSONArray;
@@ -198,6 +203,8 @@ public class CreateEventActivity extends ActionBarActivity
         mListContacts = new ContactFetcher(this).fetchAll();
         ContactsAdapter adapterContacts = new ContactsAdapter(this, mListContacts);
         mSvInHonorOf.setAdapter(adapterContacts);
+
+        //PushService.subscribe(this, getString(R.string.parse_msg_channel), CreateEventActivity.class);
     }
 
 
@@ -261,12 +268,51 @@ public class CreateEventActivity extends ActionBarActivity
         eventData.save(getBaseContext());
         EventDataStore.getInstance().addEventData(eventData);
         eventData.printDebug(getBaseContext());
+        JSONObject jobj;
+        try {
+            jobj = new JSONObject();
+            jobj.put("alert" , "New Event");
+            jobj.put("action", getString(R.string.parse_message_action));
+            jobj.put("username", contact.getFirstEmail().getAddress());
+            ParsePush parsePush = new ParsePush();
+            ParseQuery pQuery = ParseInstallation.getQuery(); // <-- Installation query
+
+            // !! For debugging purposes. For production, uncomment line below and comment one after!!!
+            //pQuery.whereEqualTo("username", contact.getFirstEmail().getAddress());
+            pQuery.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
+
+
+            parsePush.setData(jobj);
+            //parsePush.setMessage("TESTMSG");
+            //parsePush.setChannel(getString(R.string.parse_msg_channel));
+            parsePush.setQuery(pQuery);
+            parsePush.sendInBackground(new SendCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+
+
+
+        } catch (JSONException e) {
+// TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == PARSE_LOGIN_REQUEST_CODE) {
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("username", ParseUser.getCurrentUser().getUsername());
+            installation.saveEventually();
             saveEventData();
         }
     }

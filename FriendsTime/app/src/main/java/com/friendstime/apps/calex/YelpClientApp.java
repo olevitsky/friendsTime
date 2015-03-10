@@ -8,6 +8,9 @@ import com.friendstime.apps.calex.model.YelpClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
 
 /*
  * This is the Android application itself and is used to configure various settings
@@ -50,6 +53,16 @@ public class YelpClientApp extends com.activeandroid.app.Application {
         //ParseObject testObject = new ParseObject("TestObject");
         //testObject.put("foo", "bar");
         //testObject.saveInBackground();
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
     }
 
     public static YelpClient getRestClient() {

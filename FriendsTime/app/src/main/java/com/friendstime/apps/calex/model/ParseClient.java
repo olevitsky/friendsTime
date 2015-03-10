@@ -29,6 +29,8 @@ public class ParseClient {
         Parse.enableLocalDatastore(ctx);
         Parse.initialize(ctx, PARSE_APP_ID, PARSE_CLIENT_KEY);
 
+
+
         context = ctx;
 // If you would like all objects to be private by default, remove this
 // line.
@@ -40,7 +42,7 @@ public class ParseClient {
 // should probably synchronize this
         if (client == null) {
             PARSE_APP_ID = ctx.getString(R.string.parse_app_id);
-            PARSE_CLIENT_KEY = ctx.getString( R.string.parse_client_key);
+            PARSE_CLIENT_KEY = ctx.getString(R.string.parse_client_key);
             // PARSE credentials must be initialized here!!!
             client = new ParseClient(ctx);
         }
