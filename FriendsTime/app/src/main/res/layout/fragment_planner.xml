@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/previous"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
             android:layout_gravity="left"
             android:background="@drawable/arrow_left"/>
 
@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/next"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
             android:layout_gravity="right"
             android:background="@drawable/arrow_right"/>
     </LinearLayout>

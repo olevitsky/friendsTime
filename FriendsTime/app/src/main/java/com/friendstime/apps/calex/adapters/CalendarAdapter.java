@@ -178,7 +178,10 @@ public class CalendarAdapter extends BaseAdapter {
         }
         
         // mCurrentMonth start day. ie; sun, mon, etc
-        mFirstDay = mCurrentData.getCurrentMonth().get(GregorianCalendar.DAY_OF_WEEK);
+        // Set currentMonth to day one so that correct day of the week could be retrieved.
+        GregorianCalendar currentMonth = (GregorianCalendar)(mCurrentData.getCurrentMonth()).clone();
+        currentMonth.set(GregorianCalendar.DAY_OF_MONTH, 1);
+        mFirstDay = currentMonth.get(GregorianCalendar.DAY_OF_WEEK);
         // finding number of weeks in current mCurrentMonth.
         int maxWeeknumber = mCurrentData.getCurrentMonth().
                 getActualMaximum(GregorianCalendar.WEEK_OF_MONTH);
