@@ -204,7 +204,13 @@ public class EventPlannerFragment extends Fragment {
                     if ((gridvalue > 10) && (position < 8)) {
                         mCurrentData.setPreviousView(mDisplayView);
                         refreshCalendar();
-                    } else if ((gridvalue < 7) && (position > 28)) {
+
+                   /* OLEG HACK, Need to figure out how to support months with different number of rows.
+                   Previous implementation SEGV for August 3 (August has more rows than other months. Same is for January
+                    */
+
+                   // } else if ((gridvalue < 7) && (position > 28)) {
+                    } else if ((gridvalue < 15) && (position > 28)) {
                         mCurrentData.setNextView(mDisplayView);
                         refreshCalendar();
                     }
