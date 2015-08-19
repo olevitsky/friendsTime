@@ -40,7 +40,12 @@ public class CreatedEventTodayAdapter extends ArrayAdapter<SuperCreate> {
         ImageButton button = (ImageButton) convertView.findViewById(R.id.ibTodayDeleteEvent);
         button.setTag(new Integer(position));
         // Populate the data into the template view using the data object
-        tvEventName.setText(todayEvent.eventName);
+        if (todayEvent.eventName.length() < 15 ){
+        tvEventName.setText(todayEvent.eventName);}
+        else{
+            tvEventName.setText(todayEvent.eventName.substring(0,14) + "...");
+        }
+
         tvEventStartTime.setText(todayEvent.startTime);
         if (todayEvent.endTime == null){
             tvEventEndTime.setText("?");

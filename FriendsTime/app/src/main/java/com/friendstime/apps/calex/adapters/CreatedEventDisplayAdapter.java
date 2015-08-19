@@ -70,10 +70,16 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         TextView tvDate = (TextView) convertView.findViewById(R.id.tvDate);
         TextView tvEventName = (TextView) convertView.findViewById(R.id.tvEventName);
         ImageButton button = (ImageButton) convertView.findViewById(R.id.ibDeleteEvent);
-        if (tvDate != null)
-        {tvDate.setText(event.date);}
-        if (tvEventName != null){
-        tvEventName.setText(event.eventName);}
+        if (tvDate != null) {
+            tvDate.setText(event.date);
+        }
+        if (tvEventName != null) {
+            if (event.eventName.length() < 15) {
+                tvEventName.setText(event.eventName);
+            } else {
+                tvEventName.setText(event.eventName.substring(0, 14) + "...");
+            }
+        }
 
         // Return the completed view to render on screen
         if (button != null) {
@@ -81,8 +87,13 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         }
         TextView tvEmbeddedName = (TextView) convertView.findViewById(R.id.tvEmbeddedName);
         ImageButton embeddedButton = (ImageButton) convertView.findViewById(R.id.ibEmbeddedDeleteEvent);
-        if (tvEmbeddedName != null)
-        {tvEmbeddedName.setText(event.embeddedName);}
+        if (tvEmbeddedName != null) {
+            if (event.embeddedName.length() < 15) {
+                tvEmbeddedName.setText(event.embeddedName);
+            } else {
+                tvEmbeddedName.setText(event.embeddedName.substring(0, 14) + "...");
+            }
+        }
         if (embeddedButton != null) {
             embeddedButton.setTag(new Integer(position));
         }

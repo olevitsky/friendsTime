@@ -71,7 +71,8 @@
             android:id="@+id/tvTodayEvents"
             android:textColor="#303F9F"
             android:textStyle="normal"
-            android:typeface="normal" />
+            android:typeface="normal"
+            android:paddingLeft="5dp" />
 
     <ListView
         android:id="@+id/lvTodayEvents"
@@ -101,7 +102,8 @@
         android:id="@+id/tvFutureEvents"
         android:textColor="#303F9F"
         android:textStyle="normal"
-        android:typeface="normal" />
+        android:typeface="normal"
+        android:paddingLeft="5dp" />
 
     <ListView
         android:layout_width="match_parent"
