@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.friendstime.apps.calex.activities.CreatedEventDisplay"
+    android:id="@+id/rvCreatedEventDisplay"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Date goes here"
+        android:layout_marginBottom="10dp"
+        android:textColor="#028482"
+        android:textSize="20dp"
+        android:elegantTextHeight="false"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Event Description"
+        android:id="@+id/tvEventName"
+        android:textSize="15dp"
+        android:textColor="#303F9F"
+        android:layout_below="@+id/tvDate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:maxLength="15"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivEventStatus"
+        android:src="@android:drawable/presence_away"
+
+        android:layout_alignTop="@+id/ibDeleteEvent"
+        android:layout_alignBottom="@+id/ibDeleteEvent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibDeleteEvent"
+        android:src="@android:drawable/ic_delete"
+        android:onClick="onClickDelete"
+        android:background="#ff9da5cc"
+        android:layout_alignTop="@+id/tvEventName"
+        android:layout_toLeftOf="@+id/ivEventStatus"
+        android:layout_toStartOf="@+id/ivEventStatus"
+        android:layout_alignBottom="@+id/tvEventName" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:layout_toLeftOf="@+id/ibDeleteEvent"
+        android:layout_toStartOf="@+id/ibDeleteEvent"
+        android:layout_alignBottom="@+id/ibDeleteEvent"
+        android:src="@mipmap/ic_edit_button_tiny"
+        android:layout_alignTop="@+id/tvEventName"
+        android:background="#ff9da5cc" />
+
+</RelativeLayout>

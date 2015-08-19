@@ -111,7 +111,7 @@ public class CalendarAdapter extends BaseAdapter {
         // checking whether the day is in current mCurrentMonth or not.
         if (isClickable(Integer.parseInt(gridvalue), position)) {
             // Setting curent mCurrentMonth's days in blue color.
-            dayView.setTextColor(Color.BLUE);
+            dayView.setTextColor(Color.parseColor("#303F9F"));
         } else {
             // setting offdays to white color.
             dayView.setTextColor(Color.WHITE);

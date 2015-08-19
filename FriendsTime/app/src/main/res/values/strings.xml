@@ -34,4 +34,5 @@
     <string name="parse_client_key">7MuCAzxPBM1n29QbCjxqX70jZl31fslE2qfJgBOG</string>
     <string name="parse_msg_channel">friends_time_parse_channel</string>
     <string name = "parse_message_action">com.friendstime.apps.calex.utils.UPDATE_STATUS</string>
+    <string name="title_activity_created_event_display">CreatedEventDisplay</string>
 </resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Event Description"
+        android:id="@+id/tvTodayName"
+        android:textSize="15dp"
+        android:textColor="#303F9F"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:ellipsize="end"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivEventStatus"
+        android:src="@android:drawable/presence_away"
+
+        android:layout_alignTop="@+id/ibTodayDeleteEvent"
+        android:layout_alignBottom="@+id/ibTodayDeleteEvent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="8dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibTodayDeleteEvent"
+        android:src="@android:drawable/ic_delete"
+        android:background="#ff9da5cc"
+        android:layout_alignTop="@+id/tvTodayName"
+        android:layout_toLeftOf="@+id/ivEventStatus"
+        android:layout_toStartOf="@+id/ivEventStatus"
+        android:layout_alignBottom="@+id/tvTodayName"
+        android:nestedScrollingEnabled="false"
+        android:onClick="onClickDeleteToday" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:src="@mipmap/ic_edit_button_tiny"
+        android:background="#ff9da5cc"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ibTodayDeleteEvent"
+        android:layout_toStartOf="@+id/ibTodayDeleteEvent"
+        android:layout_alignBottom="@+id/ibTodayDeleteEvent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="time"
+        android:id="@+id/tvTodayStartTime"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvTodayName"
+        android:layout_toEndOf="@+id/tvTodayName"
+        android:paddingLeft="5dp"
+        android:textSize="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="time"
+        android:id="@+id/tvTodayEndTime"
+        android:layout_alignBottom="@+id/imageButton2"
+        android:layout_toRightOf="@+id/tvTodayStartTime"
+        android:layout_toEndOf="@+id/tvTodayStartTime"
+        android:textSize="15dp" />
+
+</RelativeLayout>

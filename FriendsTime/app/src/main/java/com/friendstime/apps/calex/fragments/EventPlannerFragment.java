@@ -2,7 +2,6 @@ package com.friendstime.apps.calex.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,25 +13,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.activities.CreateEventActivity;
-import com.friendstime.apps.calex.activities.EventPlanner;
+import com.friendstime.apps.calex.activities.CreatedEventDisplay;
+import com.friendstime.apps.calex.activities.CreatedEventSublist;
+import com.friendstime.apps.calex.activities.CreatedEventToday;
+import com.friendstime.apps.calex.activities.SuperCreate;
 import com.friendstime.apps.calex.adapters.CalendarAdapter;
+import com.friendstime.apps.calex.adapters.CreatedEventDisplayAdapter;
+import com.friendstime.apps.calex.adapters.CreatedEventTodayAdapter;
 import com.friendstime.apps.calex.model.CurrentData;
 import com.friendstime.apps.calex.model.EventData;
 import com.friendstime.apps.calex.model.EventDataStore;
 import com.friendstime.apps.calex.utils.Utility;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -44,7 +52,7 @@ import java.util.Locale;
  * Use the {@link EventPlannerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EventPlannerFragment extends Fragment {
+public class EventPlannerFragment extends Fragment  {
     private OnFragmentInteractionListener mListener;
 
     // Calendar instances.
@@ -70,16 +78,27 @@ public class EventPlannerFragment extends Fragment {
     //ArrayList<String> date;
 
     // Descriptions of the events.
-    ArrayList<String> mDesc;
+    ArrayList<EventData> mDesc;
 
     TextView mTitleView;
 
-    Button mCreateNewEvent;
+    ImageButton mCreateNewEvent;
 
+    private final int REQUEST_CODE = 20;
+
+    private String nameInHonorOf;
+    private String eventDescription;
+    private String eventDate;
+    private String selectedDateCalendar; // this will be passed stored and passed on to refresh list view of upcoming events in eventPlanner upon deletion
+    public ArrayList <SuperCreate> eventsArray;
+    public ArrayList<SuperCreate> TodayEventsArray;
+    public ArrayAdapter<SuperCreate> mCreatedEventDisplayAdapter; // = new CreatedEventDisplayAdapter(getActivity(), eventsArray);
+    public CreatedEventTodayAdapter mTodayEventAdapter;
     public enum DisplayView {
         VIEW_MONTH, VIEW_WEEK, VIEW_DAY, VIEW_SURPRISE
     }
     public DisplayView mDisplayView;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -100,6 +119,9 @@ public class EventPlannerFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_planner, menu);
+
+
+
     }
 
     @Override
@@ -117,7 +139,11 @@ public class EventPlannerFragment extends Fragment {
                 // No grid view. Text should be day + month + year.
                 mDisplayView = DisplayView.VIEW_DAY;
                 refreshCalendar();
-                displayEventDataForDate(mCurrentData.getSelectedDate());
+                try {
+                    displayEventDataForDate(mCurrentData.getSelectedDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 return true;
             case R.id.menu_item_surprise:
                 Intent i = new Intent(getActivity(), CreateEventActivity.class);
@@ -133,18 +159,37 @@ public class EventPlannerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDisplayView = DisplayView.VIEW_MONTH;
         setHasOptionsMenu(true);
+        //Bundle args = getActivity().getIntent().getExtras();
+        //nameInHonorOf= args.getString("name");
+        //eventDescription= args.getString("description");
+        //eventDate=args.getString("date");
+
+
+
+
     }
 
-    @Override
+
+
+
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment.
         View v = inflater.inflate(R.layout.fragment_planner, container, false);
         Locale.setDefault(Locale.US);
 
-        mRowLayout = (LinearLayout) v.findViewById(R.id.event_description);
+        //mRowLayout = (LinearLayout) v.findViewById(R.id.event_description);
         mCurrentData = new CurrentData();
         mItemMonth = (GregorianCalendar) mCurrentData.getCurrentMonth().clone();
+//*************** EDITS ************************
+
+        eventsArray = new ArrayList<SuperCreate>();
+        mCreatedEventDisplayAdapter = new CreatedEventDisplayAdapter(getActivity(), eventsArray);
+            ListView lvEventDisplay = (ListView) v.findViewById(R.id.lvEventDisplay);
+            lvEventDisplay.setAdapter(mCreatedEventDisplayAdapter);
+
 
         mItems = new ArrayList<String>();
         mCalendarAdapter = new CalendarAdapter(getActivity(), mCurrentData);
@@ -168,7 +213,11 @@ public class EventPlannerFragment extends Fragment {
                 mCurrentData.setPreviousView(mDisplayView);
                 refreshCalendar();
                 if (mDisplayView == DisplayView.VIEW_DAY) {
-                    displayEventDataForDate(mCurrentData.getSelectedDate());
+                    try {
+                        displayEventDataForDate(mCurrentData.getSelectedDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -180,7 +229,11 @@ public class EventPlannerFragment extends Fragment {
                 mCurrentData.setNextView(mDisplayView);
                 refreshCalendar();
                 if (mDisplayView == DisplayView.VIEW_DAY) {
-                    displayEventDataForDate(mCurrentData.getSelectedDate());
+                    try {
+                        displayEventDataForDate(mCurrentData.getSelectedDate());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -194,6 +247,7 @@ public class EventPlannerFragment extends Fragment {
                 String selectedGridDate = CalendarAdapter.mDayStrings
                         .get(position);
                 String[] separatedTime = selectedGridDate.split("-");
+                selectedDateCalendar = selectedGridDate;
 
                 // Taking last part of date. ie; 2 from 2012-12-02.
                 String gridvalueString = separatedTime[2].replaceFirst("^0*", "");
@@ -211,17 +265,22 @@ public class EventPlannerFragment extends Fragment {
                 }
                 ((CalendarAdapter) parent.getAdapter()).setSelected(v);
                 mCurrentData.setSelectedDate(CalendarAdapter.mDayStrings.get(position));
-                displayEventDataForDate(selectedGridDate);
+                try {
+                    displayEventDataForDate(selectedGridDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
         });
-        mCreateNewEvent = (Button) v.findViewById(R.id.create_new_event);
+        mCreateNewEvent = (ImageButton) v.findViewById(R.id.create_new_event);
         mCreateNewEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = CreateEventActivity.newIntent(getActivity(),
                         mCurrentData.getSelectedDate());
-                startActivity(i);
+                startActivityForResult(i, REQUEST_CODE);
+
             }
         });
         // Run calenderUpdater2 after delay of 2 secs to give chance to
@@ -231,37 +290,115 @@ public class EventPlannerFragment extends Fragment {
         return v;
     }
 
-    public void displayEventDataForDate(String selectedDate) {
+
+public void removeData(int position)
+{
+    eventsArray.remove(position);
+    mCreatedEventDisplayAdapter.notifyDataSetChanged();
+}
+
+
+    public void displayEventDataForDate(String selectedDate) throws ParseException {
         // removing the previous view if added
-        if (((LinearLayout) mRowLayout).getChildCount() > 0) {
-            ((LinearLayout) mRowLayout).removeAllViews();
-        }
-        mDesc = new ArrayList<String>();
+//        if (((LinearLayout) mRowLayout).getChildCount() > 0) {
+  //          ((LinearLayout) mRowLayout).removeAllViews();
+    //    }
+
+        mDesc = new ArrayList<EventData>();
+        //showToast(selectedDate);
 
         ArrayList<EventData> allEvents = EventDataStore.getInstance().
                 getEventDataListFromMap(selectedDate);
+        //showToast(Integer.toString(allEvents.size()));
         for (EventData eventData : allEvents) {
             String eventDate = eventData.getFromDateString();
-            if (eventData.getFromDateString().equals(selectedDate)) {
-                mDesc.add(eventData.getEventDescription(getActivity()));
+            if (eventDate.equals(selectedDate)) {
+                mDesc.add(eventData);
             }
         }
-
+        TodayEventsArray = new ArrayList<SuperCreate>();
+        mTodayEventAdapter = new CreatedEventTodayAdapter(getActivity(), TodayEventsArray);
+        ListView lvTodayEventDisplay = (ListView) getView().findViewById(R.id.lvTodayEvents);
+        lvTodayEventDisplay.setAdapter(mTodayEventAdapter);
+        mTodayEventAdapter.clear();
+        mTodayEventAdapter.notifyDataSetChanged();
         if (mDesc.size() > 0) {
+
             for (int i = 0; i < mDesc.size(); i++) {
-                TextView rowTextView = new TextView(getActivity());
+                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
+                mTodayEventAdapter.add(todayEvent);
+               /* TextView rowTextView = new TextView(getActivity());
 
                 // set some properties of rowTextView or something
-                rowTextView.setText("Event:" + mDesc.get(i));
-                rowTextView.setTextColor(Color.BLACK);
+                //DAVID HACK
+
+                //
+                rowTextView.setMaxLines(1);
+                rowTextView.setEllipsize(TextUtils.TruncateAt.END);
+                rowTextView.setText("Today's Event: " + mDesc.get(i));
+                rowTextView.setTextColor(Color.parseColor("#303F9F"));
 
                 // add the textview to the linearlayout
-                mRowLayout.addView(rowTextView);
+                mRowLayout.addView(rowTextView);*/
+            }
+        }
+        displayUpcomingEvents(selectedDate);
+
+
+        mDesc = null;
+
+    }
+//DAVID HACK
+
+    public void displayUpcomingEvents(String date) throws ParseException {
+        mCreatedEventDisplayAdapter.clear();
+        mCreatedEventDisplayAdapter.notifyDataSetChanged();
+        //showToast("cleared");
+
+        ArrayList<EventData> ArrayUpcomingEvents = getUpcomingEventsArray(date);
+        if (ArrayUpcomingEvents.size() != 0) {
+            CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
+            mCreatedEventDisplayAdapter.add(firstEvent);
+            for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
+                EventData currentEvent = ArrayUpcomingEvents.get(i);
+                EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
+                if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
+                    CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
+                    mCreatedEventDisplayAdapter.add(subEvent);
+                } else {
+                    CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
+                    mCreatedEventDisplayAdapter.add(event);
+                }
+
             }
         }
 
-        mDesc = null;
+
     }
+
+
+    //DAVID HACK
+
+    public String getSelectedDateCalendar(){
+        return selectedDateCalendar;
+    }
+
+    public ArrayList<EventData> getUpcomingEventsArray(String selectedDate) throws ParseException {
+        ArrayList<EventData> ArrayUpcomingEvents = new ArrayList<EventData>();
+        for (int i = 0; i < 10; i++) { //figure out how many upcoming events total to display.. talk to dad, maybe check size and break loop after certain #
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(dateFormat.parse(selectedDate));
+            cal.add(Calendar.DATE, 1);
+            String convertedDate = dateFormat.format(cal.getTime());
+            ArrayList<EventData> temporaryEvents = EventDataStore.getInstance().
+                    getEventDataListFromMap(convertedDate);
+            selectedDate = convertedDate;
+            ArrayUpcomingEvents.addAll(temporaryEvents);
+        }
+        return ArrayUpcomingEvents;
+    }
+//END DAVID HACK
 
     // TODO: Rename method, update argument and hook method into UI mEvent
     public void onButtonPressed(Uri uri) {
@@ -270,6 +407,30 @@ public class EventPlannerFragment extends Fragment {
         }
     }
 
+
+
+
+//DAVID HACK
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // REQUEST_CODE is defined above
+        if (resultCode == CreateEventActivity.RESULT_OK && requestCode == REQUEST_CODE) {
+            // Extract name value from result extras
+            String name = data.getExtras().getString("name");
+            String date = data.getExtras().getString("date");
+            String description = data.getExtras().getString("description");
+            // Toast the name to display temporarily on screen
+            //Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
+            SuperCreate new_event = new CreatedEventDisplay(name, date, description); //CHANGE HARDCODED VALUE TO VARIABLE ABOVE WHEN BUILT FULLY
+            mCreatedEventDisplayAdapter.add(new_event);
+            try {
+                displayEventDataForDate(selectedDateCalendar);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+//END DAVID HACK
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -308,9 +469,9 @@ public class EventPlannerFragment extends Fragment {
     }
 
     public void refreshCalendar() {
-        if (((LinearLayout) mRowLayout).getChildCount() > 0) {
-            ((LinearLayout) mRowLayout).removeAllViews();
-        }
+//        if (((LinearLayout) mRowLayout).getChildCount() > 0) {
+  //          ((LinearLayout) mRowLayout).removeAllViews();
+    //    }
         mCalendarAdapter.populateDays(mDisplayView);
         mHandler.post(calendarUpdater2); // generate some calendar mItems
         mCalendarAdapter.notifyDataSetChanged();

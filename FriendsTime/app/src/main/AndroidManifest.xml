@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -17,14 +16,16 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!--
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
-    <permission android:protectionLevel="signature"
-        android:name="com.friendstime.apps.calex.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.friendstime.apps.calex.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.friendstime.apps.calex.permission.C2D_MESSAGE" />
 
     <android:uses-permission
@@ -34,12 +35,14 @@
     <android:uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+
     <meta-data
         android:name="AA_DB_NAME"
         android:value="RestClient.db" />
     <meta-data
         android:name="AA_DB_VERSION"
         android:value="1" />
+
     <application
         android:name=".YelpClientApp"
         android:allowBackup="true"
@@ -62,14 +65,15 @@
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
+
             <!-- For more options, see https://www.parse.com/docs/android_guide#ui-login -->
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.APP_LOGO"
                 android:resource="@drawable/logo" />
@@ -77,6 +81,7 @@
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_SIGNUP_BUTTON_TEXT"
                 android:value="Register" />
         </activity>
+
         <service android:name="com.parse.PushService" />
         <!--
         <receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver">
@@ -88,25 +93,26 @@
         </receiver>
         -->
 
-        <!-- HOW TO AVOID displaying notification when app is in foreground
+
+        <!--
+        HOW TO AVOID displaying notification when app is in foreground
         http://stackoverflow.com/questions/17157277/parseandroid-how-to-suppress-push-notification-from-being-displayed-when-app
         -->
-       <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false" >
+
+            <!-- <receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver" -->
         android:exported="false">
-        <!-- <receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver"-->
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.parse.push.intent.RECEIVE" />
-            <action android:name="com.parse.push.intent.DELETE" />
-            <action android:name="com.parse.push.intent.OPEN" />
-
-        </intent-filter>
-    </receiver>
-
-
-        <receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver"
-            android:exported="false">
-
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".utils.EventBroadcastReceiver"
+            android:exported="false" >
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -116,25 +122,23 @@
             </intent-filter>
         </receiver>
 
+        <!-- <receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver" -->
 
-
-
-
-        <!--<receiver android:name="com.friendstime.apps.calex.utils.EventBroadcastReceiver"-->
-
-
-
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
-
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="com.friendstime.apps.calex" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activities.CreatedEventDisplay"
+            android:label="@string/title_activity_created_event_display" >
+        </activity>
     </application>
 
 </manifest>

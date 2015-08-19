@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="@drawable/background"
-              android:orientation="vertical">
+              android:layout_height="525dp"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="#ff9da5cc">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="475dp"
+        android:id="@+id/linearLayout">
 
     <LinearLayout
         android:id="@+id/header"
@@ -12,6 +22,7 @@
         android:background="@drawable/calendar_top"
         android:layout_gravity="left|top"
         android:orientation="horizontal">
+
 
         <ImageView
             android:id="@+id/previous"
@@ -31,7 +42,7 @@
             android:gravity="center"
             android:layout_weight="0.8"
             android:layout_gravity="center"
-            android:text="Month Year"/>
+            android:text="Month Year" />
 
         <ImageView
             android:id="@+id/next"
@@ -46,39 +57,124 @@
         android:id="@+id/gridview"
         android:layout_below="@+id/header"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="261dp"
         android:layout_gravity="center_horizontal"
         android:listSelector="@android:color/transparent"
         android:numColumns="7"
-        android:stretchMode="columnWidth"/>
+        android:stretchMode="columnWidth" />
 
-    <Button
-        android:id="@+id/create_new_event"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Today's Events:"
+            android:id="@+id/tvTodayEvents"
+            android:textColor="#303F9F"
+            android:textStyle="normal"
+            android:typeface="normal" />
+
+    <ListView
+        android:id="@+id/lvTodayEvents"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- <TextView
+            android:id="@+id/tvView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text=""/> -->
+    </ListView>
+
+
+
+
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_new_event"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Upcoming Events:"
+        android:id="@+id/tvFutureEvents"
+        android:textColor="#303F9F"
+        android:textStyle="normal"
+        android:typeface="normal" />
 
-    <ScrollView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/lvEventDisplay"
+        android:background="#ff9da5cc" />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#303F9F"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/relativeLayout2"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/linearLayout">
 
-        <LinearLayout
-            android:id="@+id/event_description"
-            android:layout_below="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <!-- <TextView
-                android:id="@+id/tvView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text=""/> -->
-        </LinearLayout>
+            android:id="@+id/imageButton3"
+            android:background="#303F9F"
+            android:src="@mipmap/ic_edit_button_tiny"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-    </ScrollView>
-</LinearLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_new_event"
+            android:src="@mipmap/ic_add"
+            android:background="#303F9F"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton4"
+            android:background="#303F9F"
+            android:src="@mipmap/ic_settings"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton"
+            android:background="#303F9F"
+            android:layout_alignParentTop="true"
+            android:src="@mipmap/ic_edit_button_tiny"
+            android:layout_toRightOf="@+id/imageButton4"
+            android:layout_toLeftOf="@+id/create_new_event"
+            android:layout_toStartOf="@+id/create_new_event" />
+
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton5"
+            android:src="@mipmap/ic_mail"
+            android:baselineAlignBottom="false"
+            android:background="#303F9F"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageButton3"
+            android:layout_toRightOf="@+id/create_new_event"
+            android:layout_toEndOf="@+id/create_new_event" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -64,13 +64,17 @@ public class CreateEventActivity extends ActionBarActivity
     private Button mBtCancel;
     private Button mBClear;
 
+    private String date;
+    private String eventDescription;
 
     private final int PARSE_LOGIN_REQUEST_CODE = 0;
 
     private String[] m_occasions = {"birthday" , "friday" , "eve beer"};
     //private ArrayAdapter<String> mInHonorOfNameAdapter;
     private ArrayList<Contact> mListContacts;
+    ArrayList<CreatedEventDisplay> eventsArray;
     private ArrayAdapter<String> mOccasionAdapter;
+
     public static final String EVENT_DATE = "event_date";
 
     public static Intent newIntent(Context packageContext, String eventDate) {
@@ -86,7 +90,7 @@ public class CreateEventActivity extends ActionBarActivity
         mTvEventName = (EditText) findViewById(R.id.tvEventName);
         mSvInHonorOf = (Spinner) findViewById(R.id.svInHonorOf);
         mSvOccasion = (Spinner) findViewById(R.id.svOccasion);
-        mTvEventDescription = (EditText) findViewById(R.id.tvEventDescription);
+        mTvEventDescription = (EditText) findViewById(R.id.tvEventName);
         mTvDateFrom = (EditText) findViewById(R.id.tvDateFrom);
         mTvDateTo = (EditText) findViewById(R.id.tvDateTo);
         String eventDate = (String)getIntent().getSerializableExtra(EVENT_DATE);
@@ -115,6 +119,10 @@ public class CreateEventActivity extends ActionBarActivity
         // Apply the adapter to the spinner
         //mSvInHonorOf.setAdapter(mInHonorOfNameAdapter);
 
+
+
+
+
         mOccasionAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, m_occasions);
         // Specify the layout to use when the list of choices appears
@@ -137,9 +145,36 @@ public class CreateEventActivity extends ActionBarActivity
                     //login
                     ParseLoginBuilder builder = new ParseLoginBuilder(getBaseContext());
                     startActivityForResult(builder.build(), PARSE_LOGIN_REQUEST_CODE);
+
                 } else {
                     saveEventData();
                 }
+
+
+
+                //DAVID HACK
+
+                Intent data = new Intent();
+                // Pass relevant data back as a result
+                data.putExtra("date",mTvDateFrom.getText().toString());
+                data.putExtra("description",  mTvEventDescription.getText().toString());
+                 data.putExtra("name", mTvEventName.getText().toString());// ints work too
+                // Activity finished ok, return the data
+                setResult(RESULT_OK, data); // set result code and bundle data for response
+                finish(); // closes the activity, pass data to parent
+                /*getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                date = mTvDateFrom.getText().toString();
+                eventDescription = mTvEventDescription.getText().toString();
+                Bundle bundle = new Bundle();
+                bundle.putString("date", date);
+                bundle.putString("description", eventDescription);
+                Fragment fragInfo = new Fragment();
+                fragInfo.setArguments(bundle);
+                Toast toast = Toast.makeText(getApplicationContext(), "tttt", Toast.LENGTH_SHORT);
+                toast.show();*/
+
+
+
 
             };
         });
@@ -265,6 +300,7 @@ public class CreateEventActivity extends ActionBarActivity
                 mSvOccasion.getSelectedItem().toString(), mTvDateFrom.getText().toString(),
                 mTvTimeFrom.getText().toString(), mTvTimeTo.getText().toString(),
                 "location", "foodPref", m_actions, m_notes);
+
         eventData.save(getBaseContext());
         EventDataStore.getInstance().addEventData(eventData);
         eventData.printDebug(getBaseContext());

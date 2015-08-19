@@ -23,6 +23,7 @@ public class EventDataStore {
     private Map<String, ArrayList<EventData>> mEventDataMap;
     private Map<String, Contact> mContactMap;
     private static EventDataStore mInstance;
+    public ArrayList<EventData> TotalArrayDataBasedOnKey;
 
 
     private EventDataStore() {
@@ -41,9 +42,22 @@ public class EventDataStore {
         }
         return mInstance;
     }
+    //DAVID HACK
+
+    public ArrayList<EventData> getEntireArray() {
+        TotalArrayDataBasedOnKey = new ArrayList<EventData>();
+        for (String key : mEventDataMap.keySet()) {
+            ArrayList<EventData> value = mEventDataMap.get(key);
+            for (EventData obj : value) {
+                TotalArrayDataBasedOnKey.add(obj);
+            }
+        }
+        return TotalArrayDataBasedOnKey;
+    }
 
     public ArrayList<EventData> getEventDataListFromMap(String key) {
         ArrayList<EventData> evdList;
+
         if(mEventDataMap.containsKey(key)) {
             evdList = mEventDataMap.get(key);
         } else {

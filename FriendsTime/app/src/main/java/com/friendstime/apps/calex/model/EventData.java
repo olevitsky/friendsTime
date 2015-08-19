@@ -21,7 +21,7 @@ import java.util.Date;
  */
 @ParseClassName("eventData")
 public class EventData extends ParseObject {
-    public final String KEY_EVENT_NAME = "eventName";
+    public final String KEY_EVENT_NAME = "";
     public final String KEY_INHONOROFLOOKUPURI = "inHonorOfLookupURI"; // TBD convert to list
     public final String KEY_OCCASION = "occasion";
     public final String KEY_DATE =  "date";
@@ -30,6 +30,8 @@ public class EventData extends ParseObject {
     public final String KEY_FOODPREFERENCE = "foodPreference";
     public final String KEY_NOTES = "notes";
     public final String KEY_ACTIONS = "actions";
+    public final String KEY_START_TIME = "start time";
+    public final String KEY_END_TIME = "end time";
     //public final String KEY_CONTACT = "contact";
     private Contact mContact;
     //TBD
@@ -91,6 +93,11 @@ public class EventData extends ParseObject {
     public  String getNotes () {
         return getString(KEY_NOTES);
     }
+
+    public String getTimeFrom() {return getString(KEY_START_TIME);}
+
+    public String getTimeTo() {return getString(KEY_END_TIME);}
+
     public String getActions() {
         return getString(KEY_ACTIONS);
     }
@@ -106,7 +113,9 @@ public class EventData extends ParseObject {
         //put("inHonorOfLookupURI",in_honorOfLookupUri );
         put(KEY_OCCASION, occasion);
         String dateTimeFrom = timeFrom.length() == 0 ?  "00:00" : timeFrom;
+        put(KEY_START_TIME, dateTimeFrom);
         String dateTimeTo = timeTo.length() == 0 ?  "00:00" : timeTo;
+        put(KEY_END_TIME, dateTimeTo);
         String fromDateObjStr = dateFrom + "," + dateTimeFrom;
         String toDateObjStr = dateFrom + "," +dateTimeTo;
         //SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy,HH:mm");

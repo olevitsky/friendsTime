@@ -59,20 +59,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ivEventStatus"
-            android:src="@drawable/abc_btn_radio_material"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/tvStatus"
-            android:layout_alignStart="@+id/tvStatus" />
+            android:src="@android:drawable/presence_busy"
+            android:layout_above="@+id/svInHonorOf"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/statusStr"
             android:id="@+id/tvStatus"
-            android:layout_below="@+id/ivEventStatus"
-            android:layout_above="@+id/btAddInHonor"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignTop="@+id/ivEventStatus"
+            android:layout_toLeftOf="@+id/ivEventStatus"
+            android:layout_toStartOf="@+id/ivEventStatus" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -90,11 +89,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btAddInHonor"
-            android:src="@drawable/badge"
+            android:src="@android:drawable/ic_input_add"
             android:layout_above="@+id/btSurpriseMe"
-            android:layout_alignRight="@+id/ivEventStatus"
             android:layout_toRightOf="@+id/tvEventName"
-            android:layout_alignEnd="@+id/ivEventStatus" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -135,7 +134,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvEventDescription"
+            android:id="@+id/tvEventName"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -149,18 +148,16 @@
             android:text="@string/fromStr"
             android:id="@+id/tvFrom"
 
-            android:layout_alignBottom="@+id/tvDateFrom"
-            android:layout_alignRight="@+id/tvTo"
-            android:layout_alignEnd="@+id/tvTo" />
+            android:layout_below="@+id/tvEventName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/toStr"
             android:id="@+id/tvTo"
-            android:layout_marginLeft="37dp"
-            android:layout_marginStart="37dp"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/tvDateFrom"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -170,11 +167,9 @@
             android:inputType="date"
             android:id="@+id/tvDateFrom"
             android:hint="@string/dateStr"
-            android:layout_alignTop="@+id/tvTimeFrom"
-            android:layout_alignLeft="@+id/tvDateTo"
-            android:layout_alignStart="@+id/tvDateTo"
-            android:layout_alignRight="@+id/tvDateTo"
-            android:layout_alignEnd="@+id/tvDateTo" />
+            android:layout_below="@+id/tvEventName"
+            android:layout_toRightOf="@+id/btSave"
+            android:layout_toEndOf="@+id/btSave" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -183,8 +178,8 @@
             android:id="@+id/tvDateTo"
             android:hint="@string/dateStr"
             android:layout_alignTop="@+id/tvTo"
-            android:layout_toRightOf="@+id/btSave"
-            android:layout_toEndOf="@+id/btSave" />
+            android:layout_alignRight="@+id/tvDateFrom"
+            android:layout_alignEnd="@+id/tvDateFrom" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -194,9 +189,19 @@
             android:hint="@string/timeStr"
 
 
-            android:layout_above="@+id/tvTimeTo"
-            android:layout_alignLeft="@+id/tvTimeTo"
-            android:layout_alignStart="@+id/tvTimeTo" />
+            android:layout_above="@+id/tvDateTo"
+            android:layout_toRightOf="@+id/btCancel"
+            android:layout_toEndOf="@+id/btCancel" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Participants"
+            android:id="@+id/tvParticipants"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvDateTo"
+            android:paddingBottom="25dp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -205,17 +210,15 @@
             android:id="@+id/tvTimeTo"
             android:hint="@string/timeStr"
             android:layout_alignTop="@+id/tvDateTo"
-            android:layout_toRightOf="@+id/tvDateTo"
-            android:layout_toEndOf="@+id/tvDateTo" />
+            android:layout_toRightOf="@+id/btCancel"
+            android:layout_toEndOf="@+id/btCancel" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cbAllDay"
             android:checked="false"
-            android:layout_marginRight="39dp"
-            android:layout_marginEnd="39dp"
-            android:layout_alignBottom="@+id/tvTimeTo"
+            android:layout_below="@+id/tvAllDay"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -226,27 +229,27 @@
             android:id="@+id/tvAllDay"
 
             android:layout_above="@+id/tvTimeTo"
-            android:layout_alignRight="@+id/cbAllDay"
-            android:layout_alignEnd="@+id/cbAllDay" />
+            android:layout_below="@+id/tvFrom"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/actionStr"
+            android:text="Add Actions"
             android:id="@+id/btActions"
-            android:layout_above="@+id/btSave"
-            android:layout_toStartOf="@+id/btCancel"
-            android:layout_marginBottom="27dp"
-            android:layout_toLeftOf="@+id/btCancel" />
+            android:layout_below="@+id/tvParticipants"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/notesStr"
+            android:text="Add Notes"
             android:id="@+id/btNotes"
-            android:layout_alignBottom="@+id/btActions"
-            android:layout_alignRight="@+id/tvAllDay"
-            android:layout_alignEnd="@+id/tvAllDay" />
+            android:layout_alignTop="@+id/btActions"
+            android:layout_alignLeft="@+id/tvTimeTo"
+            android:layout_alignStart="@+id/tvTimeTo" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -274,8 +277,52 @@
             android:text="@string/clearStr"
             android:id="@+id/btClear"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/btNotes"
-            android:layout_alignEnd="@+id/btNotes" />
+            android:layout_toRightOf="@+id/tvTimeTo"
+            android:layout_toEndOf="@+id/tvTimeTo" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/svPartcipants"
+            android:layout_alignTop="@+id/tvParticipants"
+            android:layout_toRightOf="@+id/tvParticipants"
+            android:spinnerMode="dropdown"
+            android:layout_alignBottom="@+id/tvParticipants"
+            android:paddingBottom="25dp"
+            android:layout_toLeftOf="@+id/btClear"
+            android:layout_toStartOf="@+id/btClear" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="tvActionText"
+            android:id="@+id/tvActionText"
+            android:layout_below="@+id/btActions"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/tvNotesText"
+            android:layout_toLeftOf="@+id/cbAllDay"
+            android:layout_alignTop="@+id/tvActionText"
+            android:layout_alignLeft="@+id/btNotes"
+            android:layout_alignStart="@+id/btNotes" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btAddParticipants"
+            android:src="@android:drawable/ic_input_add"
+            android:contentDescription=""
+            android:layout_below="@+id/tvTimeTo"
+            android:layout_alignLeft="@+id/tvAllDay"
+            android:layout_alignStart="@+id/tvAllDay" />
+
     </RelativeLayout>
 
 </LinearLayout>
