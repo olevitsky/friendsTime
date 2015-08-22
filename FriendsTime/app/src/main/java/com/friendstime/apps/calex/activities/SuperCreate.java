@@ -12,4 +12,6 @@ public class SuperCreate {
     public String startTime;
     public String endTime = "?";
     public int TYPE;
+    public String text; // ONLY FOR TEXTBOXES "today's events" and "upcoming events"
+
 }

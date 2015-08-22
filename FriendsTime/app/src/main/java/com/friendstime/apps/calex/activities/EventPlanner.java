@@ -57,7 +57,7 @@ public class EventPlanner extends SingleFragmentActivity
                         Toast toast = Toast.makeText(getApplicationContext(), "removed", Toast.LENGTH_SHORT);
                         toast.show();
                         theMap.get(objectDate).remove(event);
-                        frag.displayUpcomingEvents(selectedDate);
+                        frag.displayEventDataForDate(selectedDate);
                         break;
 
                     }
@@ -66,27 +66,44 @@ public class EventPlanner extends SingleFragmentActivity
                     try {
                         if (event.getEventName().equals(object.embeddedName)) {
                             theMap.get(objectDate).remove(event);
-                            frag.displayUpcomingEvents(selectedDate);
+                            frag.displayEventDataForDate(selectedDate);
 
 
                             break;
                         }
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Toast toast = Toast.makeText(getApplicationContext(), "no event name", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
 
+                if (object instanceof CreatedEventToday) {
+                    try {
+                        if (event.getEventName().equals(object.eventName)) {
+                            theMap.get(objectDate).remove(event);
+                            frag.displayEventDataForDate(selectedDate);
+
+
+                            break;
+                        }
+                    }
+                        catch (Exception e)
+                        {
+                            Toast toast = Toast.makeText(getApplicationContext(), "isue", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+
             }
+
+    }
 
 
         //frag.removeData(position);
 
-    }
 
-    public void onClickDeleteToday(View view) throws ParseException {
+
+   /* public void onClickDeleteToday(View view) throws ParseException {
         EventPlannerFragment frag = (EventPlannerFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
         String selectedDate = frag.getSelectedDateCalendar();
         todayPosition = (Integer) view.getTag();
@@ -108,7 +125,7 @@ public class EventPlanner extends SingleFragmentActivity
 
         }
     }
-
+*/
 
     public void onFragmentInteraction(Uri uri) {
         // Don't know why this is needed.

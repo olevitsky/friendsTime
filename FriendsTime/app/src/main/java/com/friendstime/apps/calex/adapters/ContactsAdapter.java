@@ -35,6 +35,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
         TextView tvEmail = (TextView) view.findViewById(R.id.tvContactEmail);
         TextView tvPhone = (TextView) view.findViewById(R.id.tvContactPhone);
         tvName.setText(contact.getContactName());
+        tvName.setTextSize(15);
         tvEmail.setText("");
         tvPhone.setText("");
 
@@ -48,6 +49,7 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 
         if (contact.numEmails() != 0) {
             tvEmail.setText(contact.getFirstEmail().getAddress());
+            tvEmail.setTextSize(10);
         }
         if (contact.numNumbers() != 0) {
             tvPhone.setText(contact.getFirstNumber().getNumber());

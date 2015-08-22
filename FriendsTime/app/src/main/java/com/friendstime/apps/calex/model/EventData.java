@@ -32,6 +32,7 @@ public class EventData extends ParseObject {
     public final String KEY_ACTIONS = "actions";
     public final String KEY_START_TIME = "start time";
     public final String KEY_END_TIME = "end time";
+    public Date KEY_DATE_OBJECT;
     //public final String KEY_CONTACT = "contact";
     private Contact mContact;
     //TBD
@@ -77,6 +78,8 @@ public class EventData extends ParseObject {
         String dateFromStr =  ft.format(getFromDate());
         return dateFromStr.substring(0, dateFromStr.indexOf(','));
     }
+
+
 
     public int getDuration() {
         return getInt(KEY_DURATION);

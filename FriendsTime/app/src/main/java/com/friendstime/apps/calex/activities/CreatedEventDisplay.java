@@ -2,6 +2,8 @@ package com.friendstime.apps.calex.activities;
 
 import android.widget.ImageButton;
 
+import java.util.Date;
+
 public class CreatedEventDisplay extends SuperCreate {
 
     //public String date;
@@ -17,6 +19,7 @@ public class CreatedEventDisplay extends SuperCreate {
         this.eventDescription = eventDescription;
         this.TYPE = 0;
         this.eventName = eventName;
+
     }
 
 

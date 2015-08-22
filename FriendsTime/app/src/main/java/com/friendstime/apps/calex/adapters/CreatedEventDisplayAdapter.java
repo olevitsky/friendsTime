@@ -44,7 +44,7 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
     public int getViewTypeCount() {
         // Returns the number of types of Views that will be created by this adapter
         // Each type represents a set of views that can be converted
-        return 2;
+        return 4;
     }
 
 
@@ -97,6 +97,47 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         if (embeddedButton != null) {
             embeddedButton.setTag(new Integer(position));
         }
+
+
+        TextView tvTodayEventName = (TextView) convertView.findViewById(R.id.tvTodayName);
+        TextView tvEventStartTime = (TextView) convertView.findViewById(R.id.tvTodayStartTime);
+        TextView tvEventEndTime = (TextView) convertView.findViewById(R.id.tvTodayEndTime);
+        ImageButton todayButton = (ImageButton) convertView.findViewById(R.id.ibTodayDeleteEvent);
+//        todayButton.setTag(new Integer(position));
+
+        if (tvTodayEventName != null) {
+
+            if (event.eventName.length() < 15) {
+                tvTodayEventName.setText(event.eventName);
+            } else {
+                tvTodayEventName.setText(event.eventName.substring(0, 14) + "...");
+            }
+        }
+
+
+        if (tvEventStartTime != null) {
+            tvEventStartTime.setText(event.startTime);
+        }
+        if (tvEventEndTime != null) {
+            if (event.endTime == null || event.endTime.equals("00:00")) {
+                tvEventEndTime.setText("?");
+            }
+            else {
+                tvEventEndTime.setText(event.endTime);
+            }
+
+        }
+
+        if (todayButton != null){
+            todayButton.setTag(new Integer(position));
+        }
+
+        TextView tvText = (TextView) convertView.findViewById(R.id.tvText);
+        if (tvText != null){
+            tvText.setText(event.text);
+        }
+
+
         return convertView;
     }
 
@@ -109,7 +150,12 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
                 return LayoutInflater.from(getContext()).inflate(R.layout.activity_created_event_display, null);
             } else if (type == 1) {
                 return LayoutInflater.from(getContext()).inflate(R.layout.activity_created_event_sublist, null);
+            } else if (type == 2){
+                return LayoutInflater.from(getContext()).inflate(R.layout.activity_created_event_today, null);
+            } else if (type == 3){
+                return LayoutInflater.from(getContext()).inflate(R.layout.activity_created_event_text_box, null);
             }
+
             else{
             return null;}
         }

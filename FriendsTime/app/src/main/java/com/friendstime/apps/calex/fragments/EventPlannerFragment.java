@@ -26,6 +26,7 @@ import com.friendstime.apps.calex.R;
 import com.friendstime.apps.calex.activities.CreateEventActivity;
 import com.friendstime.apps.calex.activities.CreatedEventDisplay;
 import com.friendstime.apps.calex.activities.CreatedEventSublist;
+import com.friendstime.apps.calex.activities.CreatedEventTextBox;
 import com.friendstime.apps.calex.activities.CreatedEventToday;
 import com.friendstime.apps.calex.activities.SuperCreate;
 import com.friendstime.apps.calex.adapters.CalendarAdapter;
@@ -41,6 +42,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -301,8 +304,8 @@ public void removeData(int position)
     public void displayEventDataForDate(String selectedDate) throws ParseException {
         // removing the previous view if added
 //        if (((LinearLayout) mRowLayout).getChildCount() > 0) {
-  //          ((LinearLayout) mRowLayout).removeAllViews();
-    //    }
+        //          ((LinearLayout) mRowLayout).removeAllViews();
+        //    }
 
         mDesc = new ArrayList<EventData>();
         //showToast(selectedDate);
@@ -316,18 +319,27 @@ public void removeData(int position)
                 mDesc.add(eventData);
             }
         }
-        TodayEventsArray = new ArrayList<SuperCreate>();
+        Collections.sort(mDesc, new Comparator<EventData>() {
+            @Override
+            public int compare(EventData lhs, EventData rhs) {
+                return lhs.getFromDate().compareTo(rhs.getFromDate());
+            }
+        });
+
+       /* TodayEventsArray = new ArrayList<SuperCreate>();
         mTodayEventAdapter = new CreatedEventTodayAdapter(getActivity(), TodayEventsArray);
         ListView lvTodayEventDisplay = (ListView) getView().findViewById(R.id.lvTodayEvents);
         lvTodayEventDisplay.setAdapter(mTodayEventAdapter);
         mTodayEventAdapter.clear();
         mTodayEventAdapter.notifyDataSetChanged();
+        mCreatedEventDisplayAdapter.clear();
+        mCreatedEventDisplayAdapter.notifyDataSetChanged();
         if (mDesc.size() > 0) {
 
             for (int i = 0; i < mDesc.size(); i++) {
                 SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
-                mTodayEventAdapter.add(todayEvent);
-               /* TextView rowTextView = new TextView(getActivity());
+               mCreatedEventDisplayAdapter.add(todayEvent);
+                TextView rowTextView = new TextView(getActivity());
 
                 // set some properties of rowTextView or something
                 //DAVID HACK
@@ -339,43 +351,97 @@ public void removeData(int position)
                 rowTextView.setTextColor(Color.parseColor("#303F9F"));
 
                 // add the textview to the linearlayout
-                mRowLayout.addView(rowTextView);*/
+                mRowLayout.addView(rowTextView);
+            }*/
+
+       // displayUpcomingEvents(selectedDate);
+        mCreatedEventDisplayAdapter.clear();
+        mCreatedEventDisplayAdapter.notifyDataSetChanged();
+        // adding "Today Events"
+        if (mDesc.size() > 0) {
+            SuperCreate textBoxTodaysEvents = new CreatedEventTextBox("Today's Events");
+            mCreatedEventDisplayAdapter.add(textBoxTodaysEvents);
+            for (int i = 0; i < mDesc.size(); i++) {
+                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
+                mCreatedEventDisplayAdapter.add(todayEvent);
             }
         }
-        displayUpcomingEvents(selectedDate);
+        // adding "Upcoming Events"
+
+            ArrayList<EventData> ArrayUpcomingEvents = getUpcomingEventsArray(selectedDate);
+        Collections.sort(ArrayUpcomingEvents, new Comparator<EventData>() {
+            @Override
+            public int compare(EventData lhs, EventData rhs) {
+                return lhs.getFromDate().compareTo(rhs.getFromDate());
+            }
+        });
+            if (ArrayUpcomingEvents.size() != 0) {
+                SuperCreate textBoxUpcomingEvents = new CreatedEventTextBox("Upcoming Events:");
+                mCreatedEventDisplayAdapter.add(textBoxUpcomingEvents);
+                CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
+
+
+                mCreatedEventDisplayAdapter.add(firstEvent);
+                for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
+                    EventData currentEvent = ArrayUpcomingEvents.get(i);
+                    EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
+                    if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
+                        CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
+                        mCreatedEventDisplayAdapter.add(subEvent);
+                    } else {
+                        CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
+                        mCreatedEventDisplayAdapter.add(event);
+                    }
+
+                }
+            }
+
 
 
         mDesc = null;
 
+
+
     }
 //DAVID HACK
 
-    public void displayUpcomingEvents(String date) throws ParseException {
-        mCreatedEventDisplayAdapter.clear();
-        mCreatedEventDisplayAdapter.notifyDataSetChanged();
+    /*public void displayUpcomingEvents(String date) throws ParseException {
+        // mCreatedEventDisplayAdapter.clear();
+        // mCreatedEventDisplayAdapter.notifyDataSetChanged();
         //showToast("cleared");
 
-        ArrayList<EventData> ArrayUpcomingEvents = getUpcomingEventsArray(date);
-        if (ArrayUpcomingEvents.size() != 0) {
-            CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
-            mCreatedEventDisplayAdapter.add(firstEvent);
-            for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
-                EventData currentEvent = ArrayUpcomingEvents.get(i);
-                EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
-                if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
-                    CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
-                    mCreatedEventDisplayAdapter.add(subEvent);
-                } else {
-                    CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
-                    mCreatedEventDisplayAdapter.add(event);
-                }
+        mCreatedEventDisplayAdapter.clear();
+        mCreatedEventDisplayAdapter.notifyDataSetChanged();
+        if (mDesc.size() > 0) {
 
+            for (int i = 0; i < mDesc.size(); i++) {
+                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
+                mCreatedEventDisplayAdapter.add(todayEvent);
             }
+
+            ArrayList<EventData> ArrayUpcomingEvents = getUpcomingEventsArray(date);
+            if (ArrayUpcomingEvents.size() != 0) {
+                CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
+                mCreatedEventDisplayAdapter.add(firstEvent);
+                for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
+                    EventData currentEvent = ArrayUpcomingEvents.get(i);
+                    EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
+                    if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
+                        CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
+                        mCreatedEventDisplayAdapter.add(subEvent);
+                    } else {
+                        CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
+                        mCreatedEventDisplayAdapter.add(event);
+                    }
+
+                }
+            }
+
+
         }
-
-
+        mDesc = null;
     }
-
+*/
 
     //DAVID HACK
 

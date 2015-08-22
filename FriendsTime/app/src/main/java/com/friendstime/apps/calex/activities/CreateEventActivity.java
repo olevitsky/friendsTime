@@ -127,6 +127,7 @@ public class CreateEventActivity extends ActionBarActivity
                 android.R.layout.simple_spinner_item, m_occasions);
         // Specify the layout to use when the list of choices appears
         mOccasionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         mSvOccasion.setAdapter(mOccasionAdapter);
 
@@ -181,8 +182,15 @@ public class CreateEventActivity extends ActionBarActivity
 
         mBClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EventDataStore.debugPrint(getBaseContext());
+                //EventDataStore.debugPrint(getBaseContext());
                 //EventData.clearDebug(getBaseContext());
+                mTvEventName.setText("");
+                mTvEventDescription.setText("");
+                mTvDateFrom.setText("");
+                mTvDateTo.setText("");
+                mTvTimeFrom.setText("");
+                mTvTimeTo.setText("");
+
             }
         });
 

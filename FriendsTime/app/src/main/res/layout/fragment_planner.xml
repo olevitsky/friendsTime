@@ -63,49 +63,8 @@
         android:numColumns="7"
         android:stretchMode="columnWidth" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Today's Events:"
-            android:id="@+id/tvTodayEvents"
-            android:textColor="#303F9F"
-            android:textStyle="normal"
-            android:typeface="normal"
-            android:paddingLeft="5dp" />
 
-    <ListView
-        android:id="@+id/lvTodayEvents"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!-- <TextView
-            android:id="@+id/tvView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text=""/> -->
-    </ListView>
-
-
-
-
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Upcoming Events:"
-        android:id="@+id/tvFutureEvents"
-        android:textColor="#303F9F"
-        android:textStyle="normal"
-        android:typeface="normal"
-        android:paddingLeft="5dp" />
-
-    <ListView
+        <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvEventDisplay"

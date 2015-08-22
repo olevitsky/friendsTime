@@ -43,7 +43,7 @@
         android:layout_toStartOf="@+id/ivEventStatus"
         android:layout_alignBottom="@+id/tvTodayName"
         android:nestedScrollingEnabled="false"
-        android:onClick="onClickDeleteToday" />
+        android:onClick="onClickDelete" />
 
     <ImageButton
         android:layout_width="wrap_content"

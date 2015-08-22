@@ -10,5 +10,7 @@ public class CreatedEventToday extends SuperCreate {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.TYPE = 2;
+
     }
 }

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 /**
  * Created by David on 8/18/2015.
  */
+
+// IGNORE THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ******************************
 public class CreatedEventTodayAdapter extends ArrayAdapter<SuperCreate> {
 
 
@@ -37,8 +39,8 @@ public class CreatedEventTodayAdapter extends ArrayAdapter<SuperCreate> {
         TextView tvEventName = (TextView) convertView.findViewById(R.id.tvTodayName);
         TextView tvEventStartTime = (TextView) convertView.findViewById(R.id.tvTodayStartTime);
         TextView tvEventEndTime = (TextView) convertView.findViewById(R.id.tvTodayEndTime);
-        ImageButton button = (ImageButton) convertView.findViewById(R.id.ibTodayDeleteEvent);
-        button.setTag(new Integer(position));
+        ImageButton todayButton = (ImageButton) convertView.findViewById(R.id.ibTodayDeleteEvent);
+        todayButton.setTag(new Integer(position));
         // Populate the data into the template view using the data object
         if (todayEvent.eventName.length() < 15 ){
         tvEventName.setText(todayEvent.eventName);}

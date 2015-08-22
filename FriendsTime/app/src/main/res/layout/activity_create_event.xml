@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.friendstime.apps.calex.activities.CreateEventActivity"
     android:weightSum="1"
-    >
+    android:background="#ff9da5cc">
 
 
 
@@ -32,7 +32,10 @@
             android:layout_alignParentLeft="true"
 
             android:layout_alignParentStart="true"
-            android:layout_alignBottom="@+id/svInHonorOf" />
+            android:layout_alignBottom="@+id/svInHonorOf"
+            android:textSize="15dp"
+            android:textColor="#303F9F"
+            android:paddingTop="2dp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -44,7 +47,8 @@
             android:layout_alignBottom="@+id/ivEventLabel"
             android:layout_toLeftOf="@+id/tvStatus"
             android:layout_toStartOf="@+id/tvStatus"
-            android:hint="@string/eventNameString" />
+            android:hint="@string/eventNameString"
+            android:textColor="#303F9F" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -71,7 +75,8 @@
             android:id="@+id/tvStatus"
             android:layout_alignTop="@+id/ivEventStatus"
             android:layout_toLeftOf="@+id/ivEventStatus"
-            android:layout_toStartOf="@+id/ivEventStatus" />
+            android:layout_toStartOf="@+id/ivEventStatus"
+            android:textColor="#303F9F" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -81,7 +86,6 @@
             android:layout_below="@+id/tvEventName"
             android:layout_toRightOf="@+id/tvInHonorOf"
             android:layout_toStartOf="@+id/btAddInHonor"
-            android:layout_toLeftOf="@+id/btAddInHonor"
             android:layout_alignRight="@+id/svOccasion"
             android:layout_alignEnd="@+id/svOccasion" />
 
@@ -103,7 +107,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="@string/OccasionStr"
-            android:layout_alignBottom="@+id/svOccasion" />
+            android:textSize="17dp"
+            android:layout_alignBottom="@+id/btSurpriseMe"
+            android:textColor="#303F9F" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -116,13 +122,17 @@
             android:layout_toStartOf="@+id/btSurpriseMe" />
 
         <Button
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/surpriseMeStr"
             android:id="@+id/btSurpriseMe"
             android:layout_below="@+id/svInHonorOf"
             android:layout_alignRight="@+id/btAddInHonor"
-            android:layout_alignEnd="@+id/btAddInHonor" />
+            android:layout_alignEnd="@+id/btAddInHonor"
+            android:textAllCaps="false"
+            android:background="@drawable/buttonshape"
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -140,7 +150,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:hint="@string/ShortEventDescrStr" />
+            android:hint="@string/ShortEventDescrStr"
+            android:textColor="#303F9F" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,18 +159,23 @@
             android:text="@string/fromStr"
             android:id="@+id/tvFrom"
 
-            android:layout_below="@+id/tvEventName"
+            android:textColor="#303F9F"
+            android:layout_above="@+id/tvDateTo"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/tvDateFrom"
+            android:paddingTop="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/toStr"
             android:id="@+id/tvTo"
-            android:layout_below="@+id/tvDateFrom"
+            android:textColor="#303F9F"
+            android:layout_alignBottom="@+id/cbAllDay"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:paddingBottom="2dp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -168,8 +184,8 @@
             android:id="@+id/tvDateFrom"
             android:hint="@string/dateStr"
             android:layout_below="@+id/tvEventName"
-            android:layout_toRightOf="@+id/btSave"
-            android:layout_toEndOf="@+id/btSave" />
+            android:layout_toRightOf="@+id/tvParticipants"
+            android:layout_toEndOf="@+id/tvParticipants" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -177,9 +193,9 @@
             android:inputType="date"
             android:id="@+id/tvDateTo"
             android:hint="@string/dateStr"
-            android:layout_alignTop="@+id/tvTo"
-            android:layout_alignRight="@+id/tvDateFrom"
-            android:layout_alignEnd="@+id/tvDateFrom" />
+            android:layout_below="@+id/tvDateFrom"
+            android:layout_alignLeft="@+id/tvDateFrom"
+            android:layout_alignStart="@+id/tvDateFrom" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -189,9 +205,9 @@
             android:hint="@string/timeStr"
 
 
-            android:layout_above="@+id/tvDateTo"
-            android:layout_toRightOf="@+id/btCancel"
-            android:layout_toEndOf="@+id/btCancel" />
+            android:layout_above="@+id/tvTimeTo"
+            android:layout_toLeftOf="@+id/tvAllDay"
+            android:layout_toStartOf="@+id/tvAllDay" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -210,15 +226,15 @@
             android:id="@+id/tvTimeTo"
             android:hint="@string/timeStr"
             android:layout_alignTop="@+id/tvDateTo"
-            android:layout_toRightOf="@+id/btCancel"
-            android:layout_toEndOf="@+id/btCancel" />
+            android:layout_alignLeft="@+id/tvTimeFrom"
+            android:layout_alignStart="@+id/tvTimeFrom" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cbAllDay"
             android:checked="false"
-            android:layout_below="@+id/tvAllDay"
+            android:layout_below="@+id/tvTimeFrom"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -228,57 +244,88 @@
             android:text="@string/allDayStr"
             android:id="@+id/tvAllDay"
 
-            android:layout_above="@+id/tvTimeTo"
-            android:layout_below="@+id/tvFrom"
+            android:textColor="#303F9F"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/tvTimeFrom"
+            android:layout_above="@+id/cbAllDay"
+            android:paddingTop="17dp" />
 
         <Button
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Actions"
             android:id="@+id/btActions"
             android:layout_below="@+id/tvParticipants"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:layout_alignRight="@+id/tvActionText"
+            android:layout_alignEnd="@+id/tvActionText"
+            android:typeface="normal"
+            android:background="@drawable/buttonshape" />
 
         <Button
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Notes"
             android:id="@+id/btNotes"
-            android:layout_alignTop="@+id/btActions"
-            android:layout_alignLeft="@+id/tvTimeTo"
-            android:layout_alignStart="@+id/tvTimeTo" />
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="15dp"
+            android:typeface="normal"
+            android:backgroundTintMode="src_atop"
+            android:background="@drawable/buttonshape"
+            android:layout_below="@+id/svPartcipants"
+            android:layout_toLeftOf="@+id/btAddParticipants"
+            android:layout_toStartOf="@+id/btAddParticipants" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/saveStr"
             android:id="@+id/btSave"
             android:layout_alignParentBottom="true"
             android:layout_alignLeft="@+id/tvFrom"
-            android:layout_alignStart="@+id/tvFrom" />
+            android:layout_alignStart="@+id/tvFrom"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:layout_toLeftOf="@+id/svPartcipants"
+            android:layout_toStartOf="@+id/svPartcipants"
+            android:typeface="normal"
+            android:background="@drawable/buttonshape" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancelStr"
             android:id="@+id/btCancel"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:layout_toRightOf="@+id/tvDateTo"
+            android:typeface="normal"
+            android:background="@drawable/buttonshape" />
 
         <Button
-            style="?android:attr/buttonStyleSmall"
+            style="@style/customButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/clearStr"
             android:id="@+id/btClear"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/tvTimeTo"
-            android:layout_toEndOf="@+id/tvTimeTo" />
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:typeface="normal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/buttonshape" />
 
         <Spinner
             android:layout_width="wrap_content"
@@ -300,7 +347,8 @@
             android:id="@+id/tvActionText"
             android:layout_below="@+id/btActions"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:textColor="#303F9F" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -311,7 +359,8 @@
             android:layout_toLeftOf="@+id/cbAllDay"
             android:layout_alignTop="@+id/tvActionText"
             android:layout_alignLeft="@+id/btNotes"
-            android:layout_alignStart="@+id/btNotes" />
+            android:layout_alignStart="@+id/btNotes"
+            android:textColor="#303F9F" />
 
         <ImageButton
             android:layout_width="wrap_content"
