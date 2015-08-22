@@ -87,7 +87,11 @@ public class CalendarAdapter extends BaseAdapter {
         } else if (mDisplayView == EventPlannerFragment.DisplayView.VIEW_MONTH) {
             if ((day > 1) && (position < mFirstDay)) {
                 return false;
-            } else if ((day < 7) && (position > 28)) {
+                /* OLEG HACK, Need to figure out how to support months with different number of rows.
+                   Previous implementation SEGV for August 3 (August has more rows than other months. Same is for January
+                    */
+            //} else if ((day < 7) && (position > 28)) {
+            } else if ((day < 15) && (position > 28)) {
                 return false;
             }
         }
@@ -186,7 +190,8 @@ public class CalendarAdapter extends BaseAdapter {
         int maxWeeknumber = mCurrentData.getCurrentMonth().
                 getActualMaximum(GregorianCalendar.WEEK_OF_MONTH);
         // allocating maximum row number for the gridview.
-        int monthLength = maxWeeknumber * 7;
+        //int monthLength = maxWeeknumber * 7;
+        int monthLength = 6 * 7;
         
         // Check previous mCurrentMonth is 31 days or lesser.
         GregorianCalendar prevMonth = (GregorianCalendar)mCurrentData.getPreviousMonth().clone();
