@@ -48,7 +48,38 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
     }
 
 
+    public String convertDate(String date){
 
+        String temp = date.substring(5,7); // month
+        String day = date.substring(8,10);
+        String year = date.substring(0,4);
+        if (temp.equals("01"))
+            temp = "January";
+        else if (temp.equals("02"))
+            temp  = "February";
+        else if (temp.equals("03"))
+            temp  = "March";
+        else if (temp.equals("04"))
+            temp  = "April";
+        else if (temp.equals("05"))
+            temp  = "May";
+        else if (temp.equals("06"))
+            temp  = "June";
+        else if (temp.equals("07"))
+            temp  = "July";
+        else if (temp.equals("08"))
+            temp  = "August";
+        else if (temp.equals("09"))
+            temp  = "September";
+        else if (temp.equals("10"))
+            temp  = "October";
+        else if (temp.equals("11"))
+            temp  = "November";
+        else if (temp.equals("12"))
+            temp = "December";
+        return temp + " " + day;
+
+    }
 
 
 
@@ -70,8 +101,10 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         TextView tvDate = (TextView) convertView.findViewById(R.id.tvDate);
         TextView tvEventName = (TextView) convertView.findViewById(R.id.tvEventName);
         ImageButton button = (ImageButton) convertView.findViewById(R.id.ibDeleteEvent);
+        ImageButton editButtonDisplay = (ImageButton) convertView.findViewById(R.id.ibEditDisplay);
         if (tvDate != null) {
-            tvDate.setText(event.date);
+            String convertedDate = convertDate(event.dateFrom);
+            tvDate.setText(convertedDate);
         }
         if (tvEventName != null) {
             if (event.eventName.length() < 15) {
@@ -85,17 +118,25 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         if (button != null) {
             button.setTag(new Integer(position));
         }
+        if (editButtonDisplay != null){
+            editButtonDisplay.setTag(new Integer(position));
+        }
+
         TextView tvEmbeddedName = (TextView) convertView.findViewById(R.id.tvEmbeddedName);
         ImageButton embeddedButton = (ImageButton) convertView.findViewById(R.id.ibEmbeddedDeleteEvent);
+        ImageButton editButtonSublist = (ImageButton) convertView.findViewById(R.id.ibEditSublist);
         if (tvEmbeddedName != null) {
-            if (event.embeddedName.length() < 15) {
-                tvEmbeddedName.setText(event.embeddedName);
+            if (event.eventName.length() < 15) {
+                tvEmbeddedName.setText(event.eventName);
             } else {
-                tvEmbeddedName.setText(event.embeddedName.substring(0, 14) + "...");
+                tvEmbeddedName.setText(event.eventName.substring(0, 14) + "...");
             }
         }
         if (embeddedButton != null) {
             embeddedButton.setTag(new Integer(position));
+        }
+        if (editButtonSublist != null){
+            editButtonSublist.setTag(new Integer(position));
         }
 
 
@@ -103,6 +144,7 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
         TextView tvEventStartTime = (TextView) convertView.findViewById(R.id.tvTodayStartTime);
         TextView tvEventEndTime = (TextView) convertView.findViewById(R.id.tvTodayEndTime);
         ImageButton todayButton = (ImageButton) convertView.findViewById(R.id.ibTodayDeleteEvent);
+        ImageButton editButtonToday = (ImageButton) convertView.findViewById(R.id.ibEditToday);
 //        todayButton.setTag(new Integer(position));
 
         if (tvTodayEventName != null) {
@@ -130,6 +172,10 @@ public class CreatedEventDisplayAdapter extends ArrayAdapter<SuperCreate> {
 
         if (todayButton != null){
             todayButton.setTag(new Integer(position));
+        }
+
+        if (editButtonToday != null){
+            editButtonToday.setTag(new Integer(position));
         }
 
         TextView tvText = (TextView) convertView.findViewById(R.id.tvText);

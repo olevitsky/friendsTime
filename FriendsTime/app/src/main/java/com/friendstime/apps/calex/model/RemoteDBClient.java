@@ -34,6 +34,8 @@ public class RemoteDBClient {
     public static void getAllEventData(final Context context, final FindCallback<EventData>callback) {
         ParseQuery<EventData> query = ParseQuery.getQuery(EventData.class);
         query.fromLocalDatastore();
+        query.include("actions");
+        query.include("participants");
         query.findInBackground(new FindCallback<EventData>() {
             @Override
             public void done(List<EventData> objects, ParseException e) {

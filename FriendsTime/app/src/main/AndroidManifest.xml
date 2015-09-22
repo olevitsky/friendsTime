@@ -60,6 +60,7 @@
         </activity>
         <activity
             android:name=".activities.CreateEventActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_create_event" >
         </activity>
         <activity

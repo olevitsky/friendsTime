@@ -1,0 +1,6 @@
+<root>
+  <item
+      name='com.loopj.android.http.AsyncHttpClient com.loopj.android.http.RequestHandle get(java.lang.String, com.loopj.android.http.ResponseHandlerInterface)'>
+    <annotation name='java.lang.annotation.Deprecated' />
+  </item>
+</root>

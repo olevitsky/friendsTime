@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.friendstime.apps.calex.R;
+import com.friendstime.apps.calex.activities.Action;
 import com.friendstime.apps.calex.activities.CreateEventActivity;
 import com.friendstime.apps.calex.activities.CreatedEventDisplay;
 import com.friendstime.apps.calex.activities.CreatedEventSublist;
@@ -32,6 +33,7 @@ import com.friendstime.apps.calex.activities.SuperCreate;
 import com.friendstime.apps.calex.adapters.CalendarAdapter;
 import com.friendstime.apps.calex.adapters.CreatedEventDisplayAdapter;
 import com.friendstime.apps.calex.adapters.CreatedEventTodayAdapter;
+import com.friendstime.apps.calex.model.Contact;
 import com.friendstime.apps.calex.model.CurrentData;
 import com.friendstime.apps.calex.model.EventData;
 import com.friendstime.apps.calex.model.EventDataStore;
@@ -79,7 +81,7 @@ public class EventPlannerFragment extends Fragment  {
     LinearLayout mRowLayout;
 
     //ArrayList<String> date;
-
+    ListView mEventsListView;
     // Descriptions of the events.
     ArrayList<EventData> mDesc;
 
@@ -87,11 +89,8 @@ public class EventPlannerFragment extends Fragment  {
 
     ImageButton mCreateNewEvent;
 
-    private final int REQUEST_CODE = 20;
+    public final int REQUEST_CODE = 20;
 
-    private String nameInHonorOf;
-    private String eventDescription;
-    private String eventDate;
     private String selectedDateCalendar; // this will be passed stored and passed on to refresh list view of upcoming events in eventPlanner upon deletion
     public ArrayList <SuperCreate> eventsArray;
     public ArrayList<SuperCreate> TodayEventsArray;
@@ -296,6 +295,15 @@ public class EventPlannerFragment extends Fragment  {
         // get eventdata getting populated.
         mHandler.postDelayed(calendarUpdater2, 2000);
 
+       /*  mEventsListView = (ListView) v.findViewById(R.id.lvEventDisplay);
+         mEventsListView.setOnClickListener(new View.OnClickListener(){
+
+             @Override
+            public void onClick(View v){
+                 Intent i = CreateEventActivity.newIntent()
+             }
+            }
+*/
         return v;
     }
 
@@ -332,33 +340,6 @@ public void removeData(int position)
             }
         });
 
-       /* TodayEventsArray = new ArrayList<SuperCreate>();
-        mTodayEventAdapter = new CreatedEventTodayAdapter(getActivity(), TodayEventsArray);
-        ListView lvTodayEventDisplay = (ListView) getView().findViewById(R.id.lvTodayEvents);
-        lvTodayEventDisplay.setAdapter(mTodayEventAdapter);
-        mTodayEventAdapter.clear();
-        mTodayEventAdapter.notifyDataSetChanged();
-        mCreatedEventDisplayAdapter.clear();
-        mCreatedEventDisplayAdapter.notifyDataSetChanged();
-        if (mDesc.size() > 0) {
-
-            for (int i = 0; i < mDesc.size(); i++) {
-                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
-               mCreatedEventDisplayAdapter.add(todayEvent);
-                TextView rowTextView = new TextView(getActivity());
-
-                // set some properties of rowTextView or something
-                //DAVID HACK
-
-                //
-                rowTextView.setMaxLines(1);
-                rowTextView.setEllipsize(TextUtils.TruncateAt.END);
-                rowTextView.setText("Today's Event: " + mDesc.get(i));
-                rowTextView.setTextColor(Color.parseColor("#303F9F"));
-
-                // add the textview to the linearlayout
-                mRowLayout.addView(rowTextView);
-            }*/
 
        // displayUpcomingEvents(selectedDate);
         mCreatedEventDisplayAdapter.clear();
@@ -368,7 +349,30 @@ public void removeData(int position)
             SuperCreate textBoxTodaysEvents = new CreatedEventTextBox("Today's Events");
             mCreatedEventDisplayAdapter.add(textBoxTodaysEvents);
             for (int i = 0; i < mDesc.size(); i++) {
-                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
+                ArrayList<String> actionNames = mDesc.get(i).getActionNames();
+                ArrayList<String> actionPersons = mDesc.get(i).getActionPersons();
+                ArrayList<String> participantNames = mDesc.get(i).getParticipantNames();
+                ArrayList<Contact> participants = new ArrayList<Contact>();
+                ArrayList<Action> actions = new ArrayList<Action>();
+
+                for (String participantName : participantNames){
+                    Contact contact = new Contact();
+                    contact.name = participantName;
+                    participants.add(contact);
+                }
+
+                for (String actionName : actionNames){
+                    Action action = new Action();
+                    action.action = actionName;
+                    actions.add(action);
+
+                }
+                for (int j = 0; j<actions.size(); j++){
+                    Action action = actions.get(j);
+                    action.nameOfPerson = actionPersons.get(j);
+                }
+
+                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getToDateString(), mDesc.get(i).getTimeFromString(), mDesc.get(i).getTimeToString(), mDesc.get(i).getEventDescription(), mDesc.get(i).getNotes(), actions, participants); // date passed in twice because textbox only contains 1st parameter
                 mCreatedEventDisplayAdapter.add(todayEvent);
             }
         }
@@ -384,18 +388,54 @@ public void removeData(int position)
             if (ArrayUpcomingEvents.size() != 0) {
                 SuperCreate textBoxUpcomingEvents = new CreatedEventTextBox("Upcoming Events:");
                 mCreatedEventDisplayAdapter.add(textBoxUpcomingEvents);
-                CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
+                String eventName = ArrayUpcomingEvents.get(0).getEventName();
+                String dateFrom =  ArrayUpcomingEvents.get(0).getFromDateString();
+                String dateTo = ArrayUpcomingEvents.get(0).getToDateString();
+                String startTime = ArrayUpcomingEvents.get(0).getTimeFromString();
+                String endTime = ArrayUpcomingEvents.get(0).getTimeToString();
+                String eventDescription = ArrayUpcomingEvents.get(0).getEventDescription();
+                ArrayList<String> notes = ArrayUpcomingEvents.get(0).getNotes();
+                ArrayList<String> actionNames = ArrayUpcomingEvents.get(0).getActionNames();
+                ArrayList<String> actionPersons = ArrayUpcomingEvents.get(0).getActionPersons();
+             ArrayList<String> participantNames = ArrayUpcomingEvents.get(0).getParticipantNames();
+                ArrayList<Contact> participants = new ArrayList<Contact>();
+                ArrayList<Action> actions = new ArrayList<Action>();
+
+                for (String participantName : participantNames){
+                    Contact contact = new Contact();
+                    contact.name = participantName;
+                    participants.add(contact);
+                }
+
+               for (String actionName : actionNames){
+                   Action action = new Action();
+                   action.action = actionName;
+                   actions.add(action);
+
+               }
+                for (int i = 0; i<actions.size(); i++){
+                    Action action = actions.get(i);
+                    action.nameOfPerson = actionPersons.get(i);
+                }
 
 
+                CreatedEventDisplay firstEvent = new CreatedEventDisplay(eventName, dateFrom, dateTo, startTime, endTime, eventDescription, notes, actions, participants);
                 mCreatedEventDisplayAdapter.add(firstEvent);
                 for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
                     EventData currentEvent = ArrayUpcomingEvents.get(i);
                     EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
+                    String eventName2 = currentEvent.getEventName();
+                    String dateFrom2 = currentEvent.getFromDateString();
+                    String dateTo2 = currentEvent.getToDateString();
+                    String startTime2 = currentEvent.getTimeFromString();
+                    String endTime2 = currentEvent.getTimeToString();
+                    String eventDescription2 = currentEvent.getEventDescription();
+
                     if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
-                        CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
+                        CreatedEventSublist subEvent = new CreatedEventSublist(eventName2, dateFrom2, dateTo2, startTime2, endTime2, eventDescription2, notes, actions, participants);
                         mCreatedEventDisplayAdapter.add(subEvent);
                     } else {
-                        CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
+                        CreatedEventDisplay event = new CreatedEventDisplay(eventName2, dateFrom2, dateTo2, startTime2, endTime2, eventDescription2, notes, actions, participants);
                         mCreatedEventDisplayAdapter.add(event);
                     }
 
@@ -409,47 +449,6 @@ public void removeData(int position)
 
 
     }
-//DAVID HACK
-
-    /*public void displayUpcomingEvents(String date) throws ParseException {
-        // mCreatedEventDisplayAdapter.clear();
-        // mCreatedEventDisplayAdapter.notifyDataSetChanged();
-        //showToast("cleared");
-
-        mCreatedEventDisplayAdapter.clear();
-        mCreatedEventDisplayAdapter.notifyDataSetChanged();
-        if (mDesc.size() > 0) {
-
-            for (int i = 0; i < mDesc.size(); i++) {
-                SuperCreate todayEvent = new CreatedEventToday(mDesc.get(i).getEventName(), mDesc.get(i).getFromDateString(), mDesc.get(i).getTimeFrom() + " - ", mDesc.get(i).getTimeTo()); // date passed in twice because textbox only contains 1st parameter
-                mCreatedEventDisplayAdapter.add(todayEvent);
-            }
-
-            ArrayList<EventData> ArrayUpcomingEvents = getUpcomingEventsArray(date);
-            if (ArrayUpcomingEvents.size() != 0) {
-                CreatedEventDisplay firstEvent = new CreatedEventDisplay(ArrayUpcomingEvents.get(0).getEventName(), ArrayUpcomingEvents.get(0).getFromDateString(), "event description");
-                mCreatedEventDisplayAdapter.add(firstEvent);
-                for (int i = 1; i < ArrayUpcomingEvents.size(); i++) {
-                    EventData currentEvent = ArrayUpcomingEvents.get(i);
-                    EventData previousEvent = ArrayUpcomingEvents.get(i - 1);
-                    if (currentEvent.getFromDateString().equals(previousEvent.getFromDateString())) {
-                        CreatedEventSublist subEvent = new CreatedEventSublist(currentEvent.getEventName(), currentEvent.getFromDateString());
-                        mCreatedEventDisplayAdapter.add(subEvent);
-                    } else {
-                        CreatedEventDisplay event = new CreatedEventDisplay(currentEvent.getEventName(), currentEvent.getFromDateString(), "event description");
-                        mCreatedEventDisplayAdapter.add(event);
-                    }
-
-                }
-            }
-
-
-        }
-        mDesc = null;
-    }
-*/
-
-    //DAVID HACK
 
     public String getSelectedDateCalendar(){
         return selectedDateCalendar;
@@ -483,25 +482,36 @@ public void removeData(int position)
 
 
 //DAVID HACK
-    @Override
+    // app doesn't get here. delete this code? look into it.
+  /*  @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // REQUEST_CODE is defined above
+        showToast("got here");
         if (resultCode == CreateEventActivity.RESULT_OK && requestCode == REQUEST_CODE) {
             // Extract name value from result extras
+            //NULL POINTER EXCEPTIONS..?
             String name = data.getExtras().getString("name");
-            String date = data.getExtras().getString("date");
+            String dateFrom = data.getExtras().getString("dateFrom");
             String description = data.getExtras().getString("description");
+            String startTime = data.getExtras().getString("startTime");
+            String endTime = data.getExtras().getString("endTime");
+            String dateTo = data.getExtras().getString("dateTo");
+            String selectedDate = data.getExtras().getString("selectedDate");
+
+
+            //String occasion = data.getExtras().getString("occasion");
             // Toast the name to display temporarily on screen
             //Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
-            SuperCreate new_event = new CreatedEventDisplay(name, date, description); //CHANGE HARDCODED VALUE TO VARIABLE ABOVE WHEN BUILT FULLY
+            SuperCreate new_event = new CreatedEventDisplay(name, dateFrom, dateTo, startTime, endTime, description); //CHANGE HARDCODED VALUE TO VARIABLE ABOVE WHEN BUILT FULLY
             mCreatedEventDisplayAdapter.add(new_event);
             try {
                 displayEventDataForDate(selectedDateCalendar);
             } catch (ParseException e) {
+                showToast("mistake");
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 //END DAVID HACK
     @Override
     public void onAttach(Activity activity) {

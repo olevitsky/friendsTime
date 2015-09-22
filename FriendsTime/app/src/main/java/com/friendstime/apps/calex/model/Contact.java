@@ -1,6 +1,8 @@
 package com.friendstime.apps.calex.model;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
@@ -11,10 +13,12 @@ import java.util.ArrayList;
  * Created by oleg on 2/4/2015.
  */
 @ParseClassName("Contact")
-public class Contact extends ParseObject {
+public class Contact extends ParseObject implements Parcelable  {
     //PARSE OBJECTS:
     public final String KEY_CONTENT_LOOKUP_URI = "contentLookupURI";
     public final String KEY_NAME = "name";
+    public String name;
+    public int checked;
     //String contentLookupURI (CONTENT_LOOKUP_URI)
     //String name;
 
@@ -41,6 +45,7 @@ public class Contact extends ParseObject {
     }
 
 
+
     public void setLocalId(String id) {
         m_localId = id;
     }
@@ -51,8 +56,13 @@ public class Contact extends ParseObject {
     public void setContact(String contentLookupURI, String name) {
 
         put("KEY_CONTENT_LOOKUP_URI", contentLookupURI);
-        put("NAME", name);
+        put("name", name);
+        this.name = name;
 
+    }
+
+    public void setContact(int checked){
+        put("checked", checked);
     }
 
     public void setIsEmailNumberSet(boolean v) {
@@ -63,7 +73,7 @@ public class Contact extends ParseObject {
     }
 
     public String getContactName() {
-        return (getString("NAME"));
+        return (getString("name"));
     }
 
     public void addEmail(String address, String type) {
@@ -102,7 +112,46 @@ public class Contact extends ParseObject {
         return null;
     }
 
+
+
     public void saveContact (Context context) {
         RemoteDBClient.saveContact(this);
     }
+
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(name);
+        out.writeInt(checked);
+    }
+
+    private Contact(Parcel in) {
+        name = in.readString();
+        checked = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+// After implementing the `Parcelable` interface, we need to create the
+// `Parcelable.Creator<MyParcelable> CREATOR` constant for our class;
+// Notice how it has our class specified as its type.
+public static final Parcelable.Creator<Contact> CREATOR
+        = new Parcelable.Creator<Contact>() {
+
+    // This simply calls our new constructor (typically private) and
+    // passes along the unmarshalled `Parcel`, and then returns the new object!
+    @Override
+    public Contact createFromParcel(Parcel in) {
+        return new Contact(in);
+    }
+
+    // We just need to copy this and change the type to match our class.
+    @Override
+    public Contact[] newArray(int size) {
+        return new Contact[size];
+    }
+};
 }

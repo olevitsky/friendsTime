@@ -14,6 +14,7 @@ import com.parse.ParseQuery;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -24,7 +25,8 @@ public class EventData extends ParseObject {
     public final String KEY_EVENT_NAME = "";
     public final String KEY_INHONOROFLOOKUPURI = "inHonorOfLookupURI"; // TBD convert to list
     public final String KEY_OCCASION = "occasion";
-    public final String KEY_DATE =  "date";
+    public final String KEY_FROM_DATE =  "date";
+    public final String KEY_TO_DATE = "toDate"; //value of string matters?
     public final  String KEY_DURATION = "duration"; // minutes
     public final String KEY_LOCATION = "location";
     public final String KEY_FOODPREFERENCE = "foodPreference";
@@ -32,6 +34,7 @@ public class EventData extends ParseObject {
     public final String KEY_ACTIONS = "actions";
     public final String KEY_START_TIME = "start time";
     public final String KEY_END_TIME = "end time";
+    public final String KEY_EVENT_DESCRIPTION = "description";
     public Date KEY_DATE_OBJECT;
     //public final String KEY_CONTACT = "contact";
     private Contact mContact;
@@ -68,7 +71,7 @@ public class EventData extends ParseObject {
     }
 
     public Date getFromDate() {
-        return getDate(KEY_DATE);
+        return getDate(KEY_FROM_DATE);
     }
 
     public String getFromDateString() {
@@ -79,11 +82,22 @@ public class EventData extends ParseObject {
         return dateFromStr.substring(0, dateFromStr.indexOf(','));
     }
 
+    public Date getToDate() {return getDate(KEY_TO_DATE);}
 
+    public String getToDateString() {
+        SimpleDateFormat ft =
+                new SimpleDateFormat ("yyyy-MM-dd,hh:mm");
+
+        String dateToStr =  ft.format(getToDate());
+        return dateToStr.substring(0, dateToStr.indexOf(','));
+    }
 
     public int getDuration() {
         return getInt(KEY_DURATION);
     }
+
+    //OVERLOADED METHOD - NO PARAMETERS IN THIS ONE. RETURNS STRING FROM TEXT BOX
+    public String getEventDescription() { return getString(KEY_EVENT_DESCRIPTION);}
 
     public String getLocation() {
         return getString(KEY_LOCATION);
@@ -93,32 +107,57 @@ public class EventData extends ParseObject {
         return getString(KEY_FOODPREFERENCE);
     }
 
-    public  String getNotes () {
-        return getString(KEY_NOTES);
+    public ArrayList<String> getNotes () {
+        return (ArrayList<String>)get(KEY_NOTES);
     }
 
-    public String getTimeFrom() {return getString(KEY_START_TIME);}
+    public String getTimeFromString() {
+        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd,hh:mm");
 
-    public String getTimeTo() {return getString(KEY_END_TIME);}
-
-    public String getActions() {
-        return getString(KEY_ACTIONS);
+        String dateFromStr =  ft.format(getFromDate());
+        return dateFromStr.substring(dateFromStr.indexOf(",") + 1 , dateFromStr.length());
     }
-    public void setEventData(Context context, String eventName, Contact contact, String occasion, String dateFrom,
-                              String timeFrom, String timeTo, String location, String foodPreference,
-                              String notes, String actions) {
 
-        String in_honorOfLookupUri = contact.getContactLookupURI();
-        put(KEY_INHONOROFLOOKUPURI, in_honorOfLookupUri);
+    public String getTimeToString() {
+        SimpleDateFormat ft =
+                new SimpleDateFormat ("yyyy-MM-dd,hh:mm");
+
+        String dateToStr =  ft.format(getToDate());
+        return dateToStr.substring(dateToStr.indexOf(",") + 1, dateToStr.length());
+    }
+
+
+    public ArrayList<String> getActionNames() {
+
+         return (ArrayList<String>)get("actionName");
+
+    }
+
+    public ArrayList<String> getActionPersons()
+    {
+        return (ArrayList<String>)get("actionPerson");
+    }
+
+    public ArrayList<String> getParticipantNames(){
+        return (ArrayList<String>) get("participantName");
+    }
+
+    //public ArrayList<Contact> getParticipants(){
+     //   return (ArrayList<Contact>)get("participants");
+   // }
+    public void setEventData(Context context, String eventName, String occasion, String dateFrom,
+                              String timeFrom, String timeTo, String eventDescription, String location, String foodPreference,
+                              ArrayList<String> notes, ArrayList<String> actionNames, ArrayList<String> actionPersons, ArrayList<String> participantNames) {
+
+        //String in_honorOfLookupUri = contact.getContactLookupURI();
+        //put(KEY_INHONOROFLOOKUPURI, in_honorOfLookupUri);
         //put (KEY_CONTACT,contact);
-        mContact = contact;
+        //mContact = contact;
         put(KEY_EVENT_NAME, eventName);
         //put("inHonorOfLookupURI",in_honorOfLookupUri );
         put(KEY_OCCASION, occasion);
         String dateTimeFrom = timeFrom.length() == 0 ?  "00:00" : timeFrom;
-        put(KEY_START_TIME, dateTimeFrom);
         String dateTimeTo = timeTo.length() == 0 ?  "00:00" : timeTo;
-        put(KEY_END_TIME, dateTimeTo);
         String fromDateObjStr = dateFrom + "," + dateTimeFrom;
         String toDateObjStr = dateFrom + "," +dateTimeTo;
         //SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy,HH:mm");
@@ -128,20 +167,22 @@ public class EventData extends ParseObject {
         try {
             Date fromDateObj = formatter.parse(fromDateObjStr);
             Date toDateObj = formatter.parse(toDateObjStr);
-            put(KEY_DATE,fromDateObj );
+            put(KEY_FROM_DATE,fromDateObj );
             int duration = minutesDiff(fromDateObj,toDateObj );
             put(KEY_DURATION, duration);
+            put(KEY_TO_DATE, toDateObj);
         } catch (ParseException e) {
             e.printStackTrace();
             Toast.makeText(context, "DataFormat is wrong " + "fromDateObjStr= " +  fromDateObjStr  +
                     "toDateObjStr= " + toDateObjStr, Toast.LENGTH_SHORT).show();
         }
-
+        put(KEY_EVENT_DESCRIPTION, eventDescription);
         put(KEY_LOCATION, location);
         put(KEY_FOODPREFERENCE, foodPreference);
         put (KEY_NOTES, notes);
-        put (KEY_ACTIONS, actions);
-
+        put("actionName", actionNames);
+        put("actionPerson", actionPersons);
+        put("participantName", participantNames);
 
 
     }
@@ -198,7 +239,7 @@ public class EventData extends ParseObject {
         String URIName = "???";
         String EventDataURIName = "???";
         String occasion = getString(KEY_OCCASION);
-        Date fromDateObj = getDate(KEY_DATE);
+        Date fromDateObj = getDate(KEY_FROM_DATE);
         String dateFromStr =  fromDateObj.toString();
         int duration = getInt(KEY_DURATION);
         int durationHH = (int) (duration/60);

@@ -3,12 +3,15 @@ package com.friendstime.apps.calex;
 import android.content.Context;
 import android.util.Log;
 
+import com.friendstime.apps.calex.activities.Action;
+import com.friendstime.apps.calex.model.Contact;
 import com.friendstime.apps.calex.model.ParseClient;
 import com.friendstime.apps.calex.model.YelpClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
@@ -28,6 +31,10 @@ public class YelpClientApp extends com.activeandroid.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        ParseObject.registerSubclass(Action.class);
+        ParseObject.registerSubclass(Contact.class);
+
         YelpClientApp.sContext = this;
 
         // Create global configuration and initialize ImageLoader with this configuration

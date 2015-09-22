@@ -84,6 +84,7 @@ public class EventDataStore {
                         Contact contact = contacts.get(i);
                         mContactMap.put(contact.getContactLookupURI(), contact);
                     }
+
                     RemoteDBClient.getAllEventData(context, new FindCallback<EventData>() {
                         @Override
                         public void done(List<EventData> eventDatas, ParseException e) {
@@ -95,6 +96,7 @@ public class EventDataStore {
                                 evdList.add(ed);
                                 mEventDataMap.put(key, evdList);
                                 ed.setContact(mContactMap.get(ed.getInHonorOfFromURI()));
+
                             }
                         }
                     });

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Action"
+        android:id="@+id/tvActionName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Name of person"
+        android:id="@+id/svNameOfPerson"
+        android:paddingLeft="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tvActionName"
+        android:layout_toStartOf="@+id/cbTaskCompleted"
+        android:layout_alignBottom="@+id/tvActionName"
+        android:layout_toLeftOf="@+id/cbTaskCompleted" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done?"
+        android:id="@+id/cbTaskCompleted"
+        android:checked="false"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ibDeleteAction"
+        android:layout_toStartOf="@+id/ibDeleteAction" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ibDeleteAction"
+        android:src="@android:drawable/ic_delete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/cbTaskCompleted" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
+        android:id="@+id/bSaveEditedAction"
+        android:layout_below="@+id/svNameOfPerson"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

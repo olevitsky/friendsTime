@@ -62,12 +62,13 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
+        android:id="@+id/ibEditDisplay"
         android:layout_toLeftOf="@+id/ibDeleteEvent"
         android:layout_toStartOf="@+id/ibDeleteEvent"
         android:layout_alignBottom="@+id/ibDeleteEvent"
         android:src="@mipmap/ic_edit_button_tiny"
         android:layout_alignTop="@+id/tvEventName"
-        android:background="#ff9da5cc" />
+        android:background="#ff9da5cc"
+        android:onClick="onClickEdit" />
 
 </RelativeLayout>

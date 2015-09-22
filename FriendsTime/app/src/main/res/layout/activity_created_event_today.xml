@@ -48,13 +48,14 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
+        android:id="@+id/ibEditToday"
         android:src="@mipmap/ic_edit_button_tiny"
         android:background="#ff9da5cc"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/ibTodayDeleteEvent"
         android:layout_toStartOf="@+id/ibTodayDeleteEvent"
-        android:layout_alignBottom="@+id/ibTodayDeleteEvent" />
+        android:layout_alignBottom="@+id/ibTodayDeleteEvent"
+        android:onClick="onClickEdit" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -74,9 +75,19 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="time"
         android:id="@+id/tvTodayEndTime"
-        android:layout_alignBottom="@+id/imageButton2"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/tvHyphen"
+        android:layout_toRightOf="@+id/tvHyphen"
+        android:layout_toEndOf="@+id/tvHyphen" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="-"
+        android:id="@+id/tvHyphen"
+        android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/tvTodayStartTime"
-        android:layout_toEndOf="@+id/tvTodayStartTime"
-        android:textSize="15dp" />
+        android:layout_toEndOf="@+id/tvTodayStartTime" />
 
 </RelativeLayout>
